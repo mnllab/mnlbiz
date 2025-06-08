@@ -10,16 +10,17 @@
         /* 커스텀 스타일 */
         body {
             font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            scroll-behavior: smooth;
         }
         .gradient-text {
-            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .tab-active {
             border-bottom: 2px solid #2563eb;
             color: #2563eb;
-            font-weight: 600;
+            font-weight: 700;
         }
         .tab-inactive {
             color: #6b7280;
@@ -32,23 +33,36 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .bg-hero {
-            background-image: url('https://placehold.co/1600x900/111827/4b5563?text=Professional+Consulting');
+            background-image: url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2832&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
+        }
+        .icon-box {
+            background: white;
+            padding: 1rem;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
 <body class="bg-white text-gray-800">
 
     <!-- 네비게이션 바 -->
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-gray-900">MNL</a>
+            <a href="#" class="text-3xl font-black text-gray-900 tracking-tight">
+                MNL
+            </a>
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors">MNL 소개</a>
-                <a href="#solutions" class="text-gray-600 hover:text-blue-600 transition-colors">솔루션</a>
-                <a href="#content-hub" class="text-gray-600 hover:text-blue-600 transition-colors">콘텐츠 허브</a>
-                <a href="#contact" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow">컨설팅 문의</a>
+                <a href="#about" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">MNL 소개</a>
+                <a href="#solutions" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">MNL 비즈니스 패키지</a>
+                <a href="#events" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">강의/교육</a>
+                <a href="#content-hub" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">콘텐츠 허브</a>
+                <a href="#contact" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors shadow font-bold">컨설팅 문의</a>
             </nav>
             <button id="mobile-menu-button" class="md:hidden text-gray-800">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -57,7 +71,8 @@
         <!-- 모바일 메뉴 -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 border-t border-gray-200">
             <a href="#about" class="block py-2 text-gray-600 hover:text-blue-600">MNL 소개</a>
-            <a href="#solutions" class="block py-2 text-gray-600 hover:text-blue-600">솔루션</a>
+            <a href="#solutions" class="block py-2 text-gray-600 hover:text-blue-600">MNL 비즈니스 패키지</a>
+            <a href="#events" class="block py-2 text-gray-600 hover:text-blue-600">강의/교육</a>
             <a href="#content-hub" class="block py-2 text-gray-600 hover:text-blue-600">콘텐츠 허브</a>
             <a href="#contact" class="block mt-2 bg-blue-600 text-white text-center px-4 py-2 rounded-lg hover:bg-blue-700">컨설팅 문의</a>
         </div>
@@ -68,60 +83,27 @@
         <section class="bg-hero relative text-white">
             <div class="absolute inset-0 bg-black/60"></div>
             <div class="container mx-auto px-6 py-24 md:py-40 text-center relative z-10 fade-in">
-                <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4">당신의 사업은,<br> 실패하지 않도록 설계되었습니까?</h1>
+                <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4">대표님은, 가장 중요한 일에만<br> 집중하고 계신가요?</h1>
                 <p class="text-lg md:text-2xl font-bold gradient-text mb-8">스타트업의 가장 확실한 나침반, MNL</p>
                 <p class="max-w-3xl mx-auto text-gray-300 mb-12">
-                    수많은 정부지원사업과 투자 제안 속에서 길을 잃으셨나요? <br class="hidden md:block">
-                    MNL은 성공이 아닌 '생존'을 위한 실질적인 방법론을 제시합니다. <br class="hidden md:block">
-                    대한민국 창업 생태계의 현실을 꿰뚫는 가장 냉철한 지식과 전략을 만나보십시오.
+                    경영자가 비전과 핵심에 집중할 때, 사업은 가장 빠르게 성장합니다.<br>
+                    복잡한 실무와 전략 수립은 MNL에 맡기고, 대표님은 가장 잘할 수 있는 일에만 집중하세요.
                 </p>
                 <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6">
                     <a href="#contact" class="w-full md:w-auto bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-transform hover:scale-105 shadow-lg">1:1 컨설팅 문의하기</a>
-                    <a href="#contact" class="w-full md:w-auto bg-gray-700/50 text-white border border-gray-500 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-700/80 transition-transform hover:scale-105">기관/기업 협업 제안</a>
+                    <a href="#solutions" class="w-full md:w-auto bg-gray-700/50 text-white border border-gray-500 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-700/80 transition-transform hover:scale-105">솔루션 자세히 보기</a>
                 </div>
             </div>
         </section>
-
-        <!-- 왜 MNL인가? -->
-        <section id="why-mnl" class="py-20 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">왜 MNL인가?</h2>
-                    <p class="mt-4 text-lg text-gray-600">MNL은 막연한 희망이 아닌, 데이터와 경험에 근거한 전략을 제공합니다.</p>
-                </div>
-                <div class="grid md:grid-cols-3 gap-10 text-center">
-                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                        <div class="mb-4 inline-block p-4 bg-blue-100 rounded-full">
-                            <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">본질을 꿰뚫는 통찰력</h3>
-                        <p class="text-gray-600">화려한 성공 신화가 아닌, 실패의 데이터를 분석합니다. 수천 건의 컨설팅 경험으로 사업의 가장 취약한 고리를 찾아냅니다.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                        <div class="mb-4 inline-block p-4 bg-blue-100 rounded-full">
-                           <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1.5m0-1V3m0 3v-1.5m-3.5-1.5L6.5 3m1.5 1.5l-1.5-1.5M12 18.5v-1.5m0 3V21m0-3v-1.5m3.5 1.5l1.5 1.5m-1.5-1.5l1.5-1.5"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">검증된 방법론</h3>
-                        <p class="text-gray-600">예창패부터 스케일업까지, 사업 단계별 최적의 전략을 명확한 로드맵으로 제시하여 시간과 자원의 낭비를 막습니다.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                        <div class="mb-4 inline-block p-4 bg-blue-100 rounded-full">
-                             <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.148-6.324A1.76 1.76 0 017.175 12H4a1 1 0 01-1-1V6a1 1 0 011-1h3.175c.745 0 1.453.336 1.93.932l2.148 2.864zM15 5.882V19.24a1.76 1.76 0 003.417.592l2.148-6.324A1.76 1.76 0 0016.825 12H20a1 1 0 001-1V6a1 1 0 00-1-1h-3.175a1.762 1.762 0 00-1.93.932l-2.148 2.864z"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">타협 없는 '쓴소리'</h3>
-                        <p class="text-gray-600">대표의 막연한 기대가 아닌, 시장과 투자자의 냉정한 시각을 그대로 전달합니다. 불편하지만 반드시 필요한 조언로 성공 확률을 극대화합니다.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
 
         <!-- MNL 소개 -->
-        <section id="about" class="py-20 bg-white">
+        <section id="about" class="py-20 bg-gray-50">
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
-                    <div class="md:w-1/3">
-                        <img src="3D-캐릭터-생성-001.jpg" alt="김장길 교수 프로필" class="rounded-full shadow-2xl mx-auto w-64 h-64 md:w-80 md:h-80 object-cover">
+                    <div class="md:w-1/3 flex justify-center items-center">
+                        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full shadow-2xl overflow-hidden bg-gray-200">
+                             <img src="https://i.imgur.com/r6p6Rz3.png" alt="MNL 대표 컨설턴트 김장길" class="w-full h-full object-cover">
+                        </div>
                     </div>
                     <div class="md:w-2/3">
                         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">"창업은 기술이 아닌,<br>전략과 생존의 문제입니다."</h2>
@@ -129,7 +111,7 @@
                         <p class="text-gray-600 leading-relaxed mb-6">
                             MNL은 서울대학교 공과대학 김장길 교수가 운영하는 스타트업 전문 컨설팅 브랜드입니다. 일본 도쿄대학교에서 정밀공학 박사 학위를 취득한 공학 전문가이자, 수년간 SNU공학컨설팅센터에서 수많은 창업팀의 기술 컨설팅과 사업화를 지원해 온 창업 교육 전문가입니다. 공학적 논리와 날카로운 분석력을 바탕으로, 기술 기반 스타트업이 겪는 문제의 핵심을 진단하고 가장 현실적인 해결책을 제공하는 것을 목표로 합니다.
                         </p>
-                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                        <div class="bg-white border-l-4 border-blue-500 p-4 rounded-r-lg shadow-sm">
                             <h4 class="font-bold mb-2">주요 이력</h4>
                             <ul class="list-disc list-inside text-gray-700 space-y-1">
                                 <li>現 서울대학교 공과대학 연구교수</li>
@@ -142,12 +124,64 @@
                 </div>
             </div>
         </section>
+        
+        <!-- Fractional PM 솔루션 소개 -->
+        <section id="fractional-pm" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">대표님은 핵심에만 집중하세요</h2>
+                    <p class="mt-4 text-xl text-blue-600 font-semibold">MNL의 Fractional PM 솔루션</p>
+                </div>
+                <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2940&auto=format&fit=crop" alt="전략 회의" class="rounded-xl shadow-2xl">
+                    </div>
+                    <div class="md:w-1/2">
+                        <p class="text-lg text-gray-700 leading-relaxed mb-6">
+                           단순한 PM 업무 대행이 아닙니다. 사업의 방향을 결정하는 전략 수립부터, 비전을 현실로 만드는 기술 개발 로드맵, 시장을 사로잡는 제품 기획과 출시까지. 대표님의 가장 믿음직한 핵심 파트너로서 사업의 A to Z를 함께합니다.
+                        </p>
+                        <p class="text-gray-600 leading-relaxed mb-8">
+                            MNL의 Fractional PM은 월급을 받는 직원을 고용하는 대신, 필요한 만큼만 외부의 전문가를 활용하는 합리적인 솔루션입니다. 경영진 레벨의 폭넓은 시야와 깊이 있는 실무 경험으로 대표님의 부담을 덜어드립니다.
+                        </p>
+                        <div class="space-y-6">
+                             <div class="flex items-start">
+                                <div class="icon-box">
+                                   <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">전략 및 비전 구체화</h4>
+                                    <p class="text-gray-600">대표님의 비전을 측정 가능한 목표와 실행 가능한 전략으로 전환합니다.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="icon-box">
+                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">기술 개발 로드맵</h4>
+                                    <p class="text-gray-600">사업 목표에 최적화된 기술 스택 선정과 개발 로드맵을 설계합니다.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="icon-box">
+                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">제품 기획 및 실행</h4>
+                                    <p class="text-gray-600">고객의 목소리를 반영한 제품을 기획하고, 출시까지의 전 과정을 관리합니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- 솔루션 -->
         <section id="solutions" class="py-20 bg-gray-50">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">솔루션</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">MNL 비즈니스 패키지</h2>
                     <p class="mt-4 text-lg text-gray-600">개별 스타트업부터 기관 파트너까지, 최적의 솔루션을 제안합니다.</p>
                 </div>
 
@@ -160,36 +194,36 @@
                 <!-- 탭 콘텐츠 -->
                 <div id="content-startups" class="tab-content">
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="bg-white p-8 rounded-lg shadow-md border-l-4 border-blue-600">
+                        <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-blue-600">
+                            <h3 class="text-xl font-bold mb-3">Fractional PM 솔루션</h3>
+                            <p class="text-gray-600 mb-4"><strong class="text-gray-800">대상:</strong> 제품 개발 및 사업 운영에 부담을 느끼는 경영자</p>
+                            <p class="text-gray-600">경영자가 비본질적 업무에서 벗어나 사업 핵심에만 집중하도록, MNL이 회사의 핵심 파트너 역할을 수행합니다.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-blue-600">
                             <h3 class="text-xl font-bold mb-3">정부지원사업 합격 전략</h3>
                             <p class="text-gray-600 mb-4"><strong class="text-gray-800">대상:</strong> 예창패, 초창패, 청창사 등 지원팀</p>
                             <p class="text-gray-600">사업계획서의 논리 구조 설계부터 심사위원을 설득하는 발표 전략까지, 합격률을 극대화하는 A to Z 컨설팅</p>
                         </div>
-                        <div class="bg-white p-8 rounded-lg shadow-md border-l-4 border-blue-600">
+                        <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-blue-600">
                             <h3 class="text-xl font-bold mb-3">투자 유치 IR 컨설팅</h3>
                             <p class="text-gray-600 mb-4"><strong class="text-gray-800">대상:</strong> Seed ~ Pre-A 단계 스타트업</p>
                             <p class="text-gray-600">투자자 시각에서 비즈니스 모델을 재검토하고, 매력적인 IR 자료 작성, 밸류에이션 및 협상 전략 코칭</p>
-                        </div>
-                        <div class="bg-white p-8 rounded-lg shadow-md border-l-4 border-blue-600">
-                            <h3 class="text-xl font-bold mb-3">비즈니스 모델 진단</h3>
-                            <p class="text-gray-600 mb-4"><strong class="text-gray-800">대상:</strong> 피봇팅 또는 BM 고도화 필요 기업</p>
-                            <p class="text-gray-600">시장 적합성(PMF) 검증, 수익 모델 재설계, 핵심 지표(KPI) 설정을 통해 지속 가능한 성장 기반 마련</p>
                         </div>
                     </div>
                 </div>
                 <div id="content-partners" class="tab-content hidden">
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="bg-white p-8 rounded-lg shadow-md border-l-4 border-green-600">
+                        <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-green-600">
                             <h3 class="text-xl font-bold mb-3">초청 강연 및 워크숍</h3>
                             <p class="text-gray-600 mb-4"><strong class="text-gray-800">대상:</strong> 대학, 창업지원기관, AC/VC, 사내벤처</p>
                             <p class="text-gray-600">'실패하지 않는 사업계획서', '투자 유치 트렌드' 등 청중 맞춤형 주제의 인사이트 강연 및 실습 워크숍</p>
                         </div>
-                        <div class="bg-white p-8 rounded-lg shadow-md border-l-4 border-green-600">
+                        <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-green-600">
                             <h3 class="text-xl font-bold mb-3">창업 교육 콘텐츠 제휴</h3>
                             <p class="text-gray-600 mb-4"><strong class="text-gray-800">대상:</strong> 온라인 교육 플랫폼, 창업 프로그램 기관</p>
                             <p class="text-gray-600">검증된 MNL의 핵심 교육 콘텐츠를 파트너사의 플랫폼에 맞게 가공하여 제공</p>
                         </div>
-                        <div class="bg-white p-8 rounded-lg shadow-md border-l-4 border-green-600">
+                        <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-green-600">
                             <h3 class="text-xl font-bold mb-3">스타트업 심사 및 멘토링</h3>
                             <p class="text-gray-600 mb-4"><strong class="text-gray-800">대상:</strong> 정부기관, 지자체, AC/VC</p>
                             <p class="text-gray-600">객관적인 심사 기준에 따른 유망 스타트업 선별 및 선발팀의 성장을 위한 정기 멘토링 프로그램 참여</p>
@@ -198,6 +232,34 @@
                 </div>
             </div>
         </section>
+        
+        <!-- 강의 및 교육 -->
+        <section id="events" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">강의 및 교육 프로그램</h2>
+                    <p class="mt-4 text-lg text-gray-600">이론이 아닌 실전! MNL의 압축적인 인사이트를 오프라인 강의에서 만나보세요.</p>
+                </div>
+                <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden md:flex">
+                    <div class="md:w-1/2">
+                         <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2940&auto=format&fit=crop" alt="MNL 강의 이미지" class="w-full h-full object-cover">
+                    </div>
+                    <div class="md:w-1/2 p-8 flex flex-col justify-center">
+                        <h3 class="text-2xl font-bold mb-4">MNL 창업 실전 강의</h3>
+                        <p class="text-gray-700 mb-6">
+                            정부지원사업부터 투자유치, 비즈니스 모델 설계까지. 스타트업이 반드시 알아야 할 핵심 내용을 실제 사례와 함께 전달합니다.
+                        </p>
+                        <a href="https://event-us.kr/" target="_blank" class="inline-flex items-center justify-center bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors self-start">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                           </svg>
+                           이벤터스에서 강의 일정 확인하기
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <!-- 콘텐츠 허브 -->
         <section id="content-hub" class="py-20 bg-white">
@@ -207,18 +269,18 @@
                     <p class="mt-4 text-lg text-gray-600">가장 빠르고 깊이 있는 MNL의 인사이트를 지금 확인하세요.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-10">
-                    <div class="bg-gray-100 p-8 rounded-lg">
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-lg">
                         <h3 class="text-2xl font-bold mb-4">채널 엠엔엘 (YouTube)</h3>
-                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden mb-6 shadow-lg">
-                            <img src="https://placehold.co/600x338/ef4444/ffffff?text=YouTube+Thumbnails" alt="유튜브 채널 썸네일" class="w-full h-full object-cover">
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden mb-6 shadow-md">
+                            <img src="https://images.unsplash.com/photo-1611162617213-6d229e68b6d1?q=80&w=2874&auto=format&fit=crop" alt="유튜브 채널 썸네일" class="w-full h-full object-cover">
                         </div>
                         <p class="text-gray-600 mb-6">창업의 A to Z를 다루는 무료 공개 강의와 라이브 Q&A. 지금 바로 구독하고 최신 트렌드를 놓치지 마세요.</p>
                         <a href="https://www.youtube.com/channel/UCDnzXvZkFFh0ItA5RGVQGMg" target="_blank" class="inline-block bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors">유튜브 채널 바로가기</a>
                     </div>
-                    <div class="bg-gray-100 p-8 rounded-lg">
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-lg">
                         <h3 class="text-2xl font-bold mb-4">MNL 프리미엄 리포트</h3>
-                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden mb-6 shadow-lg">
-                           <img src="https://placehold.co/600x338/10b981/ffffff?text=Naver+Premium+Content" alt="네이버 프리미엄 콘텐츠 썸네일" class="w-full h-full object-cover">
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden mb-6 shadow-md">
+                           <img src="https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?q=80&w=2940&auto=format&fit=crop" alt="네이버 프리미엄 콘텐츠 썸네일" class="w-full h-full object-cover">
                         </div>
                         <p class="text-gray-600 mb-6">정부지원사업 심층 분석, 투자 계약서 해설 등 더욱 깊이 있고 체계적인 유료 콘텐츠.</p>
                         <a href="https://contents.premium.naver.com/mnl/mnledu" target="_blank" class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors">프리미엄콘텐츠 바로가기</a>
@@ -231,46 +293,79 @@
         <section id="contact" class="py-20 bg-gray-900 text-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold">컨설팅 및 파트너십 문의</h2>
-                    <p class="mt-4 text-lg text-gray-300">개인 컨설팅부터 기관/기업 파트너십까지, 당신의 성공적인 다음 단계를 위해 MNL이 함께 고민하겠습니다.</p>
+                    <h2 class="text-3xl md:text-4xl font-bold">컨설팅 및 문의</h2>
+                    <p class="mt-4 text-lg text-gray-300">1:1 컨설팅부터 기관 협업까지, 당신의 성공적인 다음 단계를 위해 MNL이 함께 고민하겠습니다.</p>
                 </div>
-                <div class="max-w-2xl mx-auto bg-white/10 p-8 rounded-lg shadow-lg backdrop-blur-sm text-center">
-                     <h3 class="text-2xl font-bold mb-4 text-white">네이버 톡톡으로 문의하기</h3>
-                    <p class="text-gray-300 mb-8">
-                        아래 버튼을 클릭하시면 네이버 톡톡으로 바로 연결됩니다.<br>1:1 컨설팅부터 기관 협업까지, 무엇이든 편하게 문의해주세요.
-                    </p>
-                    <a href="https://talk.naver.com/w4hvya" target="_blank" class="inline-flex items-center justify-center bg-green-500 text-white text-lg font-bold py-4 px-10 rounded-lg hover:bg-green-600 transition-colors shadow-lg">
-                        <svg class="w-8 h-8 mr-3" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22.2577 3.33331H12.934C7.81883 3.33331 3.61111 7.2304 3.61111 12.3472V22.0625C3.61111 26.657 7.21528 30.6389 11.8056 31.0625L13.75 32.7847C14.7361 33.6666 16.2014 33.1597 16.25 31.8819V29.868C24.4722 29.1805 30.8333 23.3125 30.8333 15C30.8333 8.71526 27.0833 3.33331 22.2577 3.33331Z" fill="white"/>
-                            <path d="M35.2778 18.8889C35.2778 24.1667 31.25 28.6111 26.3194 29.3264V31.8819C26.3194 33.1597 27.7847 33.6667 28.7708 32.7847L30.7153 31.0625C35.7014 30.5417 39.3889 26.6528 39.3889 22.0625V12.3472C39.3889 7.23053 35.1806 3.33331 30.0659 3.33331C31.5493 3.38318 32.9365 3.82772 34.0538 4.60768C34.8257 5.14811 35.2778 6.00288 35.2778 6.93748V18.8889Z" fill="white" fill-opacity="0.8"/>
-                        </svg>
-                        네이버 톡톡으로 문의하기
-                    </a>
+                <div class="max-w-2xl mx-auto bg-white/10 p-8 rounded-lg shadow-lg backdrop-blur-sm">
+                    <form id="contact-form">
+                        <div class="mb-5">
+                            <label for="type" class="block mb-2 font-medium">문의 유형</label>
+                            <select id="type" name="type" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Fractional PM 솔루션</option>
+                                <option>정부지원사업 컨설팅</option>
+                                <option>투자유치 컨설팅</option>
+                                <option>기관/기업 파트너십</option>
+                                <option>기타</option>
+                            </select>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 mb-5">
+                            <div>
+                                <label for="name" class="block mb-2 font-medium">이름/회사명</label>
+                                <input type="text" id="name" name="name" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            <div>
+                                <label for="contact-info" class="block mb-2 font-medium">연락처</label>
+                                <input type="text" id="contact-info" name="contact-info" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                        </div>
+                         <div class="mb-5">
+                            <label for="email" class="block mb-2 font-medium">이메일</label>
+                            <input type="email" id="email" name="email" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block mb-2 font-medium">문의 내용</label>
+                            <textarea id="message" name="message" rows="5" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+                        </div>
+                         <div class="mb-6">
+                            <label class="flex items-center">
+                                <input type="checkbox" id="privacy-policy" name="privacy-policy" class="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500" required>
+                                <span class="ml-2 text-sm text-gray-300">개인정보 수집 및 이용에 동의합니다.</span>
+                            </label>
+                        </div>
+                        <button type="submit" id="submit-button" class="w-full bg-blue-600 text-white text-lg font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-500">문의 접수하기</button>
+                    </form>
+                    <div id="form-status" class="mt-4 text-center font-medium"></div>
                 </div>
             </div>
         </section>
     </main>
 
     <!-- 푸터 -->
-    <footer class="bg-gray-800 text-gray-400">
-        <div class="container mx-auto px-6 py-8">
-            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-                <div class="mb-4 md:mb-0">
-                    <h3 class="text-xl font-bold text-white">MNL</h3>
-                    <p class="mt-1">대표dltk: 김장길</p>
+    <footer class="bg-gray-800 text-gray-300 text-sm">
+        <div class="container mx-auto px-6 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                     <a href="#" class="text-3xl font-black text-white tracking-tight">
+                        MNL
+                    </a>
+                    <p class="mt-2 text-gray-400">스타트업의 가장 확실한 나침반</p>
                 </div>
-                <div class="mb-4 md:mb-0">
-                    <p>주식회사 아리드리</p>
-                    <p>주소: 서울특별시 강서구 공항개대로 186, 1305호 (마곡로뎀타워)</p>
+                <div class="text-gray-400">
+                    <h4 class="font-bold text-white mb-2">Company Info</h4>
+                     <p>회사명: 주식회사 아리드리 (ARIDRI, Inc.)</p>
+                    <p>대표자: 김장길</p>
+                    <p>사업자등록번호: 522-87-02756</p>
+                    <p>통신판매업신고: 2023-서울강서-0303</p>
+                </div>
+                <div class="text-gray-400">
+                     <h4 class="font-bold text-white mb-2">Contact</h4>
+                    <p>주소: 서울특별시 강서구 공항대로 186, 1305호</p>
                     <p>이메일: contact@mnlbiz.com</p>
-                </div>
-                <div class="flex space-x-4">
-                    <a href="#" class="hover:text-white">개인정보처리방침</a>
-                    <a href="#" class="hover:text-white">서비스 이용약관</a>
+                    <p>전화: 050-6787-0921</p>
                 </div>
             </div>
-            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
-                <p>&copy; 2025 MNL. All Rights Reserved.</p>
+            <div class="mt-10 pt-8 border-t border-gray-700 text-center text-gray-500">
+                <p>&copy; 2025 ARIDRI, Inc. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
@@ -309,6 +404,113 @@
                 });
             });
         });
+        
+        // ===================================================================================
+        // 문의 폼 (Google Form 연동)
+        // ===================================================================================
+        const contactForm = document.getElementById('contact-form');
+        const formStatus = document.getElementById('form-status');
+        const submitButton = document.getElementById('submit-button');
+
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // --- [!!! 중요 !!!] 아래 URL을 자신의 Google Apps Script 웹 앱 URL로 반드시 변경해야 합니다. ---
+            const googleAppScriptURL = 'YOUR_GOOGLE_APP_SCRIPT_URL_HERE'; 
+
+            // URL이 교체되지 않은 경우, 사용자에게 설정이 필요함을 명확히 알립니다.
+            if (googleAppScriptURL === 'YOUR_GOOGLE_APP_SCRIPT_URL_HERE' || !googleAppScriptURL) {
+                formStatus.innerHTML = '<p class="text-yellow-400">폼 전송 기능이 아직 설정되지 않았습니다.<br>코드 내의 가이드에 따라 설정을 완료해주세요.</p>';
+                return;
+            }
+            
+            const formData = new FormData(contactForm);
+
+            // '전송 중' 상태로 변경
+            submitButton.disabled = true;
+            submitButton.textContent = '전송 중...';
+            formStatus.textContent = '';
+            
+            fetch(googleAppScriptURL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    // 성공 시 메시지 표시 및 폼 리셋
+                    formStatus.innerHTML = '<p class="text-green-400">문의가 성공적으로 접수되었습니다. 곧 연락드리겠습니다.</p>';
+                    contactForm.reset();
+                } else {
+                    // Apps Script에서 에러를 반환한 경우
+                    throw new Error(data.error || 'Unknown error from script');
+                }
+            })
+            .catch((error) => {
+                // 네트워크 오류 또는 기타 문제 발생 시
+                console.error('Error!', error.message);
+                formStatus.innerHTML = '<p class="text-red-400">오류가 발생했습니다. 잠시 후 다시 시도하거나 다른 방법으로 연락해주세요.</p>';
+            })
+            .finally(() => {
+                // 최종적으로 버튼 상태 복원
+                submitButton.disabled = false;
+                submitButton.textContent = '문의 접수하기';
+            });
+        });
+
+        /*
+        ======================================================================================
+        [가이드] Google Apps Script 설정 방법
+        ======================================================================================
+        1. 문의 내용을 기록할 새로운 Google Sheet를 생성합니다.
+           (헤더: Timestamp, Type, Name/Company, Contact, Email, Message)
+
+        2. 상단 메뉴에서 '확장 프로그램' > 'Apps Script'로 이동합니다.
+
+        3. 편집기의 모든 내용을 지우고 아래 코드를 붙여넣습니다.
+        --------------------------------------------------------------------------------------
+        function doPost(e) {
+            try {
+                var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+                var newRow = [
+                    new Date(),
+                    e.parameter.type,
+                    e.parameter.name,
+                    e.parameter['contact-info'],
+                    e.parameter.email,
+                    e.parameter.message
+                ];
+                sheet.appendRow(newRow);
+                
+                return ContentService
+                    .createTextOutput(JSON.stringify({ "result": "success" }))
+                    .setMimeType(ContentService.MimeType.JSON);
+            } catch (error) {
+                return ContentService
+                    .createTextOutput(JSON.stringify({ "result": "error", "error": error.message }))
+                    .setMimeType(ContentService.MimeType.JSON);
+            }
+        }
+        --------------------------------------------------------------------------------------
+
+        4. 스크립트를 저장합니다. (Ctrl + S 또는 디스켓 아이콘)
+
+        5. 상단의 '배포' > '새 배포'를 클릭합니다.
+
+        6. '유형 선택'(톱니바퀴 아이콘) > '웹 앱'을 선택합니다.
+
+        7. '설정'에서 아래와 같이 입력합니다.
+           - 설명: (예: MNL 웹사이트 문의 폼)
+           - 다음 사용자로 실행: '나' (본인 계정)
+           - 액세스 권한이 있는 사용자: '모든 사용자'로 설정해야 외부에서 접근 가능합니다.
+
+        8. '배포' 버튼을 클릭하고, '액세스 승인' 버튼을 눌러 권한을 허용합니다.
+           (Google 계정 선택 > '고급' 클릭 > '~으로 이동(안전하지 않음)' 클릭 > '허용' 클릭)
+
+        9. 배포 완료 후 나타나는 '웹 앱 URL'을 복사합니다.
+
+        10. 복사한 URL을 위 스크립트의 'YOUR_GOOGLE_APP_SCRIPT_URL_HERE' 부분에 붙여넣습니다.
+        */
     </script>
 </body>
 </html>
