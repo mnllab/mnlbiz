@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MNL - 스타트업의 가장 확실한 나침반</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* 커스텀 스타일 */
         body {
-            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+            font-family: 'IBM Plex Sans KR', sans-serif;
             scroll-behavior: smooth;
         }
         .gradient-text {
@@ -81,9 +83,9 @@
     <main>
         <!-- 메인 화면 (Hero Section) -->
         <section class="bg-hero relative text-white">
-            <div class="absolute inset-0 bg-black/60"></div>
+            <div class="absolute inset-0 bg-black/70"></div>
             <div class="container mx-auto px-6 py-24 md:py-40 text-center relative z-10 fade-in">
-                <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4">대표님은, 가장 중요한 일에만<br> 집중하고 계신가요?</h1>
+                <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4"><span class="font-bold">대표님은, 가장</span> 중요한 일에만<br> 집중하고 계신가요?</h1>
                 <p class="text-lg md:text-2xl font-bold gradient-text mb-8">스타트업의 가장 확실한 나침반, MNL</p>
                 <p class="max-w-3xl mx-auto text-gray-300 mb-12">
                     경영자가 비전과 핵심에 집중할 때, 사업은 가장 빠르게 성장합니다.<br>
@@ -91,7 +93,7 @@
                 </p>
                 <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-6">
                     <a href="#contact" class="w-full md:w-auto bg-blue-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-transform hover:scale-105 shadow-lg">1:1 컨설팅 문의하기</a>
-                    <a href="#solutions" class="w-full md:w-auto bg-gray-700/50 text-white border border-gray-500 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-700/80 transition-transform hover:scale-105">솔루션 자세히 보기</a>
+                    <a href="#solutions" class="w-full md:w-auto bg-gray-700/50 text-white border border-gray-500 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-700/80 transition-transform hover:scale-105">서비스 자세히 보기</a>
                 </div>
             </div>
         </section>
@@ -101,8 +103,8 @@
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
                     <div class="md:w-1/3 flex justify-center items-center">
-                        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full shadow-2xl overflow-hidden bg-gray-200">
-                             <img src="https://i.imgur.com/r6p6Rz3.png" alt="MNL 대표 컨설턴트 김장길" class="w-full h-full object-cover">
+                        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full shadow-2xl overflow-hidden bg-gray-200 flex items-center justify-center">
+                             <img src="https://placehold.co/400x400/e5e7eb/4b5563?text=Profile+Image" alt="프로필 사진" class="w-full h-full object-cover">
                         </div>
                     </div>
                     <div class="md:w-2/3">
@@ -269,21 +271,21 @@
                     <p class="mt-4 text-lg text-gray-600">가장 빠르고 깊이 있는 MNL의 인사이트를 지금 확인하세요.</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-10">
-                    <div class="bg-gray-50 p-8 rounded-lg shadow-lg">
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-lg flex flex-col">
                         <h3 class="text-2xl font-bold mb-4">채널 엠엔엘 (YouTube)</h3>
-                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden mb-6 shadow-md">
-                            <img src="https://images.unsplash.com/photo-1611162617213-6d229e68b6d1?q=80&w=2874&auto=format&fit=crop" alt="유튜브 채널 썸네일" class="w-full h-full object-cover">
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden mb-6 shadow-md bg-gray-200 flex items-center justify-center">
+                            <span class="text-gray-500">YouTube 썸네일</span>
                         </div>
-                        <p class="text-gray-600 mb-6">창업의 A to Z를 다루는 무료 공개 강의와 라이브 Q&A. 지금 바로 구독하고 최신 트렌드를 놓치지 마세요.</p>
-                        <a href="https://www.youtube.com/channel/UCDnzXvZkFFh0ItA5RGVQGMg" target="_blank" class="inline-block bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors">유튜브 채널 바로가기</a>
+                        <p class="text-gray-600 mb-6 flex-grow">창업의 A to Z를 다루는 무료 공개 강의와 라이브 Q&A. 지금 바로 구독하고 최신 트렌드를 놓치지 마세요.</p>
+                        <a href="https://www.youtube.com/channel/UCDnzXvZkFFh0ItA5RGVQGMg" target="_blank" class="inline-block bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors self-start">유튜브 채널 바로가기</a>
                     </div>
-                    <div class="bg-gray-50 p-8 rounded-lg shadow-lg">
+                    <div class="bg-gray-50 p-8 rounded-lg shadow-lg flex flex-col">
                         <h3 class="text-2xl font-bold mb-4">MNL 프리미엄 리포트</h3>
-                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden mb-6 shadow-md">
-                           <img src="https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?q=80&w=2940&auto=format&fit=crop" alt="네이버 프리미엄 콘텐츠 썸네일" class="w-full h-full object-cover">
+                        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden mb-6 shadow-md bg-gray-200 flex items-center justify-center">
+                           <span class="text-gray-500">프리미엄콘텐츠 썸네일</span>
                         </div>
-                        <p class="text-gray-600 mb-6">정부지원사업 심층 분석, 투자 계약서 해설 등 더욱 깊이 있고 체계적인 유료 콘텐츠.</p>
-                        <a href="https://contents.premium.naver.com/mnl/mnledu" target="_blank" class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors">프리미엄콘텐츠 바로가기</a>
+                        <p class="text-gray-600 mb-6 flex-grow">정부지원사업 심층 분석, 투자 계약서 해설 등 더욱 깊이 있고 체계적인 유료 콘텐츠.</p>
+                        <a href="https://contents.premium.naver.com/mnl/mnledu" target="_blank" class="inline-block bg-green-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors self-start">프리미엄콘텐츠 바로가기</a>
                     </div>
                 </div>
             </div>
