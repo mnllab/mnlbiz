@@ -85,7 +85,7 @@
         <section class="bg-hero relative text-white">
             <div class="absolute inset-0 bg-black/70"></div>
             <div class="container mx-auto px-6 py-24 md:py-40 text-center relative z-10 fade-in">
-                <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4"><span class="font-bold">대표님은, 가장</span> 중요한 일에만<br> 집중하고 계신가요?</h1>
+                <h1 class="text-4xl md:text-6xl font-black leading-tight mb-4"><span class="font-bold">대표님은,<br>가장 중요한 일에만</span><br> 집중하고 계신가요?</h1>
                 <p class="text-lg md:text-2xl font-bold gradient-text mb-8">스타트업의 가장 확실한 나침반, MNL</p>
                 <p class="max-w-3xl mx-auto text-gray-300 mb-12">
                     경영자가 비전과 핵심에 집중할 때, 사업은 가장 빠르게 성장합니다.<br>
@@ -111,7 +111,9 @@
                         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">"창업은 기술이 아닌,<br>전략과 생존의 문제입니다."</h2>
                         <p class="text-lg font-semibold text-blue-700 mb-6">MNL 대표 컨설턴트, 김장길</p>
                         <p class="text-gray-600 leading-relaxed mb-6">
-                            MNL은 서울대학교 공과대학 김장길 교수가 운영하는 스타트업 전문 컨설팅 브랜드입니다. 일본 도쿄대학교에서 정밀공학 박사 학위를 취득한 공학 전문가이자, 수년간 SNU공학컨설팅센터에서 수많은 창업팀의 기술 컨설팅과 사업화를 지원해 온 창업 교육 전문가입니다. 공학적 논리와 날카로운 분석력을 바탕으로, 기술 기반 스타트업이 겪는 문제의 핵심을 진단하고 가장 현실적인 해결책을 제공하는 것을 목표로 합니다.
+                            MNL은 창업을 통해 실질적인 성과를 만들고 싶은 사람들을 위한 스타트업 컨설팅 브랜드입니다. 김장길 대표는 서울대학교 공과대학 연구교수로 재직 중이며, 지난 10여 년간 수많은 스타트업과 함께하며 아이템 검증부터 시장 조사, 시제품 제작, 사업계획 수립, 자금조달까지 전 과정을 밀착 지원해온 실전 창업 교육/컨설팅 전문가입니다.누구나 창업을 꿈꿀 수 있지만, 실제로 시장에 진입하고 돈을 버는 일은 완전히 다른 이야기입니다.
+MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을 세우며, 스타트업이 다음 단계로 나아가는 데 꼭 필요한 조언과 피드백을 제공합니다.<br>
+창업 경험이 없어도 괜찮습니다. 방향이 막막해도 괜찮습니다. 여기서부터 시작하면, 당신도 스타트업 대표가 될 수 있습니다. 대표가 되고 싶은 사람에겐 길을, 수익을 만들고 싶은 사람에겐 실질적인 방법을 제시합니다. 책상 위 이론이 아니라, 시장과 고객에게 통하는 창업. 지금, 여기서 시작할 수 있습니다.
                         </p>
                         <div class="bg-white border-l-4 border-blue-500 p-4 rounded-r-lg shadow-sm">
                             <h4 class="font-bold mb-2">주요 이력</h4>
@@ -417,6 +419,49 @@
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
 
+            const googleAppScriptURL = 'https://script.google.com/macros/s/AKfycbzzHaWjFxsGpVRbqa-_ewswG32uhzvu--0T-DiHswx65JcrM04f2cVi5GOozu93E6ca/exec'; 
+
+            if (!googleAppScriptURL) {
+                formStatus.innerHTML = '<p class="text-yellow-400">폼 전송 기능이 아직 설정되지 않았습니다.<br>코드 내의 가이드에 따라 설정을 완료해주세요.</p>';
+                return;
+            }
+
+            const formData = new FormData(contactForm);
+
+            submitButton.disabled = true;
+            submitButton.textContent = '전송 중...';
+            formStatus.textContent = '';
+
+            fetch(googleAppScriptURL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    formStatus.innerHTML = '<p class="text-green-400">문의가 성공적으로 접수되었습니다. 곧 연락드리겠습니다.</p>';
+                    contactForm.reset();
+                } else {
+                    throw new Error(data.error || 'Unknown error from script');
+                }
+            })
+            .catch((error) => {
+                console.error('Error!', error.message);
+                formStatus.innerHTML = '<p class="text-red-400">오류가 발생했습니다. 잠시 후 다시 시도하거나 다른 방법으로 연락해주세요.</p>';
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.textContent = '문의 접수하기';
+            });
+        });
+    /* 오리지날
+        const contactForm = document.getElementById('contact-form');
+        const formStatus = document.getElementById('form-status');
+        const submitButton = document.getElementById('submit-button');
+
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+
             // --- [!!! 중요 !!!] 아래 URL을 자신의 Google Apps Script 웹 앱 URL로 반드시 변경해야 합니다. ---
             const googleAppScriptURL = 'YOUR_GOOGLE_APP_SCRIPT_URL_HERE'; 
 
@@ -459,7 +504,7 @@
                 submitButton.textContent = '문의 접수하기';
             });
         });
-
+        */
         /*
         ======================================================================================
         [가이드] Google Apps Script 설정 방법
