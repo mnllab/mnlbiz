@@ -1,44 +1,58 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>MNL 블로그 목록</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>창업이야기</title>
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-white text-gray-900 p-10">
-  <div class="max-w-3xl mx-auto">
-    <h1 class="text-4xl font-bold mb-8">📚 MNL 블로그</h1>
-    <ul id="post-list" class="space-y-4"></ul>
-  </div>
-
-  <script>
-    // ✅ 여기에 마크다운 파일 이름만 추가하세요 (확장자 없이)
-    const postFiles = [
-      "2025-06-11",
-      "2025-06-12"
-    ];
-
-    async function loadPostTitles() {
-      const list = document.getElementById('post-list');
-      for (const file of postFiles) {
-        try {
-          const res = await fetch(`./posts/${file}.md`);
-          const text = await res.text();
-
-          // 제목 추출: "# 제목" 또는 "--- title: ..." 중 택1
-          const titleMatch = text.match(/title:\s*(.+)/) || text.match(/^#\s*(.+)/m);
-          const title = titleMatch ? titleMatch[1].trim() : file;
-
-          const li = document.createElement('li');
-          li.innerHTML = `<a href="post.html?file=${file}" class="text-blue-600 hover:underline text-lg font-semibold">${title}</a>`;
-          list.appendChild(li);
-        } catch (err) {
-          console.error(`파일 ${file} 불러오기 실패`, err);
-        }
-      }
+  <style>
+    body {
+      font-family: 'IBM Plex Sans KR', sans-serif;
+      background-color: #ffffff;
     }
+  </style>
+</head>
+<body class="min-h-screen text-gray-900 bg-white">
 
-    loadPostTitles();
+  <!-- 헤더 -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center space-x-2">
+        <img src="https://mnllab.github.io/mnlbiz/assets/MNL.png" class="h-8 w-auto" alt="로고">
+        <span class="font-bold text-xl text-gray-800">창업이야기</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- 메인 콘텐츠 -->
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">창업이야기</h1>
+    <ul id="post-list" class="space-y-6"></ul>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-300 text-sm mt-16">
+    <div class="container mx-auto px-6 py-10 text-center">
+      &copy; 2025 ARIDRI, Inc. All Rights Reserved.
+    </div>
+  </footer>
+
+  <!-- 스크립트 -->
+  <script>
+    fetch('./posts/index.json')
+      .then(res => res.json())
+      .then(posts => {
+        const list = document.getElementById('post-list');
+        posts.forEach(post => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <a href="post.html?file=${post.file}" class="flex items-center gap-4 hover:bg-gray-50 p-2 rounded transition">
+              <img src="${post.thumbnail}" class="w-32 h-20 object-cover rounded-lg shadow-sm border border-gray-200">
+              <span class="text-lg font-semibold text-gray-800">${post.title}</span>
+            </a>`;
+          list.appendChild(li);
+        });
+      });
   </script>
 </body>
 </html>
