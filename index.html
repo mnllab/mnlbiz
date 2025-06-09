@@ -412,55 +412,48 @@ MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을
         // ===================================================================================
         // 문의 폼 (Google Form 연동)
         // ===================================================================================
-        const contactForm = document.getElementById('contact-form');
-        const formStatus = document.getElementById('form-status');
-        const submitButton = document.getElementById('submit-button');
+    const contactForm = document.getElementById('contact-form');
+    const formStatus = document.getElementById('form-status');
+    const submitButton = document.getElementById('submit-button');
 
-        contactForm.addEventListener('submit', function (e) {
-            e.preventDefault();
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-            // --- [!!! 중요 !!!] 아래 URL을 자신의 Google Apps Script 웹 앱 URL로 반드시 변경해야 합니다. ---
-            const googleAppScriptURL = 'YOUR_GOOGLE_APP_SCRIPT_URL_HERE'; 
+        const googleAppScriptURL = 'https://script.google.com/macros/s/AKfycbzzHaWjFxsGpVRbqa-_ewswG32uhzvu--0T-DiHswx65JcrM04f2cVi5GOozu93E6ca/exec'; 
 
-            // URL이 교체되지 않은 경우, 사용자에게 설정이 필요함을 명확히 알립니다.
-            if (googleAppScriptURL === 'YOUR_GOOGLE_APP_SCRIPT_URL_HERE' || !googleAppScriptURL) {
-                formStatus.innerHTML = '<p class="text-yellow-400">폼 전송 기능이 아직 설정되지 않았습니다.<br>코드 내의 가이드에 따라 설정을 완료해주세요.</p>';
-                return;
+        if (!googleAppScriptURL) {
+            formStatus.innerHTML = '<p class="text-yellow-400">폼 전송 기능이 아직 설정되지 않았습니다.<br>코드 내의 가이드에 따라 설정을 완료해주세요.</p>';
+            return;
+        }
+
+        const formData = new FormData(contactForm);
+
+        submitButton.disabled = true;
+        submitButton.textContent = '전송 중...';
+        formStatus.textContent = '';
+
+        fetch(googleAppScriptURL, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === 'success') {
+                formStatus.innerHTML = '<p class="text-green-400">문의가 성공적으로 접수되었습니다. 곧 연락드리겠습니다.</p>';
+                contactForm.reset();
+            } else {
+                throw new Error(data.error || 'Unknown error from script');
             }
-            
-            const formData = new FormData(contactForm);
-
-            // '전송 중' 상태로 변경
-            submitButton.disabled = true;
-            submitButton.textContent = '전송 중...';
-            formStatus.textContent = '';
-            
-            fetch(googleAppScriptURL, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    // 성공 시 메시지 표시 및 폼 리셋
-                    formStatus.innerHTML = '<p class="text-green-400">문의가 성공적으로 접수되었습니다. 곧 연락드리겠습니다.</p>';
-                    contactForm.reset();
-                } else {
-                    // Apps Script에서 에러를 반환한 경우
-                    throw new Error(data.error || 'Unknown error from script');
-                }
-            })
-            .catch((error) => {
-                // 네트워크 오류 또는 기타 문제 발생 시
-                console.error('Error!', error.message);
-                formStatus.innerHTML = '<p class="text-red-400">오류가 발생했습니다. 잠시 후 다시 시도하거나 다른 방법으로 연락해주세요.</p>';
-            })
-            .finally(() => {
-                // 최종적으로 버튼 상태 복원
-                submitButton.disabled = false;
-                submitButton.textContent = '문의 접수하기';
-            });
+        })
+        .catch((error) => {
+            console.error('Error!', error.message);
+            formStatus.innerHTML = '<p class="text-red-400">오류가 발생했습니다. 잠시 후 다시 시도하거나 다른 방법으로 연락해주세요.</p>';
+        })
+        .finally(() => {
+            submitButton.disabled = false;
+            submitButton.textContent = '문의 접수하기';
         });
+    });
 
         /*
         ======================================================================================
