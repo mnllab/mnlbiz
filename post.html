@@ -6,19 +6,48 @@
   <title>창업 이야기</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: 'IBM Plex Sans KR', sans-serif;
+    }
+    .prose h1, .prose h2, .prose h3 {
+      color: #111827;
+    }
+    .prose p {
+      color: #374151;
+    }
+  </style>
 </head>
-<body class="bg-white text-gray-800 font-sans">
-  <div class="max-w-3xl mx-auto px-6 py-12">
+<body class="bg-white text-gray-800">
+  <!-- 헤더 -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="blog.html" class="flex items-center space-x-2">
+        <img src="https://mnllab.github.io/mnlbiz/assets/MNL.png" class="h-8 w-auto" alt="로고">
+        <span class="font-bold text-xl text-gray-800">창업이야기</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- 본문 콘텐츠 -->
+  <main class="max-w-3xl mx-auto px-6 py-16">
     <div id="post-content" class="prose lg:prose-xl"></div>
-  </div>
+  </main>
+
+  <!-- 푸터 -->
+  <footer class="bg-gray-800 text-gray-300 text-sm mt-16">
+    <div class="container mx-auto px-6 py-10 text-center">
+      &copy; 2025 ARIDRI, Inc. All Rights Reserved.
+    </div>
+  </footer>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
+
     fetch(`./posts/${file}.md`)
       .then(res => res.text())
       .then(text => {
-        // frontmatter 추출
         const frontmatterMatch = text.match(/^---\n([\s\S]*?)\n---/);
         let html = '';
         if (frontmatterMatch) {
@@ -31,10 +60,10 @@
           const body = text.replace(frontmatterMatch[0], '');
           html += `
             <div class="mb-8">
-              <img src="${meta.thumbnail}" class="w-full h-64 object-cover rounded-xl shadow mb-4">
-              <h1 class="text-3xl font-bold mb-2">${meta.title}</h1>
-              <p class="text-gray-500 text-sm">${meta.date}</p>
-              <p class="mt-4 text-lg text-gray-600">${meta.summary}</p>
+              <img src="${meta.thumbnail}" class="w-full h-64 object-cover rounded-xl shadow mb-6">
+              <h1 class="text-4xl font-bold mb-2">${meta.title}</h1>
+              <p class="text-sm text-gray-500 mb-1">${meta.date}</p>
+              <p class="text-lg text-gray-600 mb-6">${meta.summary}</p>
             </div>
             <div>${marked.parse(body)}</div>
           `;
