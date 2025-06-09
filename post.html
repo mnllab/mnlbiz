@@ -1,26 +1,58 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>블로그 글 보기</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MNL 블로그</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
-<body class="max-w-3xl mx-auto p-6 text-gray-900">
-  <a href="blog.html" class="text-blue-600 hover:underline">&larr; 목록으로</a>
-  <div id="content" class="mt-6 prose prose-lg max-w-none"></div>
+<body class="bg-gray-100 text-gray-800 font-sans">
+  <div class="max-w-3xl mx-auto py-12 px-6">
+    <a href="blog.html" class="text-sm text-amber-600 hover:underline">&larr; 블로그 목록</a>
+    
+    <!-- 썸네일 -->
+    <div id="thumbnail-wrapper" class="mt-6 hidden">
+      <img id="post-thumbnail" class="w-full max-h-[400px] object-cover rounded-xl shadow mb-6" alt="썸네일 이미지">
+    </div>
+
+    <!-- 제목 -->
+    <h1 id="post-title" class="text-3xl font-bold mb-4">제목 로딩 중...</h1>
+
+    <!-- 본문 -->
+    <div id="post-content" class="prose prose-lg max-w-none text-gray-800"></div>
+  </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
     if (!file) {
-      document.getElementById('content').innerHTML = '<p>파일을 지정해주세요 (?file=파일이름)</p>';
+      document.getElementById('post-content').innerHTML = "<p class='text-red-600'>파일 이름이 없습니다.</p>";
     } else {
       fetch(`./posts/${file}.md`)
         .then(res => res.text())
-        .then(md => {
-          const body = md.replace(/---[\s\S]*?---/, '');  // YAML 제거
-          document.getElementById('content').innerHTML = marked.parse(body);
+        .then(text => {
+          // 제목 추출
+          const titleMatch = text.match(/title:\s*(.+)/);
+          const title = titleMatch ? titleMatch[1].trim() : file;
+          document.getElementById('post-title').innerText = title;
+
+          // 썸네일 추출
+          const thumbMatch = text.match(/thumbnail:\s*(.+)/);
+          if (thumbMatch) {
+            const img = document.getElementById('post-thumbnail');
+            img.src = thumbMatch[1].trim();
+            img.alt = title;
+            document.getElementById('thumbnail-wrapper').classList.remove('hidden');
+          }
+
+          // 본문 렌더링 (프론트매터 제거 후 마크다운 처리)
+          const body = text.replace(/^---[\s\S]+?---/, '').trim();
+          document.getElementById('post-content').innerHTML = marked.parse(body);
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById('post-content').innerHTML = "<p class='text-red-600'>파일을 불러올 수 없습니다.</p>";
         });
     }
   </script>
