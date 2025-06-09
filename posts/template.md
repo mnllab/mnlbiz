@@ -1,15 +1,12 @@
 ---
-title: 오늘의 블로그 테스트
-date: 2025-06-11
+title: 썸네일 테스트 글
+thumbnail: https://mnllab.github.io/mnlbiz/assets/thumb_2025-06-12.jpg
 ---
 
-# 오늘은 마크다운으로 씁니다
+# 오늘 썸네일을 테스트해봅니다
 
-MNL의 첫 마크다운 기반 블로그입니다.
+이미지랑 제목이 잘 나오는지 확인 중입니다.
 
-- HTML 모를 때도 쓸 수 있고
-- 이미지도 넣을 수 있어요!
-
-![테스트 이미지](../assets/test.png)
-
-**굵은 글씨**나 _기울임_, [링크](https://mnllab.github.io)도 가능!
+- 목록도 잘 나오고
+- **굵은 글씨**도 되고
+- 링크도 됩니다 [여기](https://example.com)
