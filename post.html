@@ -1,34 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <title>MNL 블로그 글</title>
-  <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+  <meta charset="UTF-8">
+  <title>블로그 글 보기</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-white text-gray-800 p-8">
-  <div class="max-w-3xl mx-auto">
-    <h1 id="post-title" class="text-3xl font-bold mb-4"></h1>
-    <div id="post-content" class="prose max-w-none"></div>
-  </div>
+<body class="max-w-3xl mx-auto p-6 text-gray-900">
+  <a href="blog.html" class="text-blue-600 hover:underline">&larr; 목록으로</a>
+  <div id="content" class="mt-6 prose prose-lg max-w-none"></div>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const file = urlParams.get('file');
-
-    if (file) {
-      fetch(`./posts/${file}.md`)
-        .then(response => response.text())
-        .then(markdown => {
-          const converter = new showdown.Converter();
-          document.getElementById('post-title').innerText = file;
-          document.getElementById('post-content').innerHTML = converter.makeHtml(markdown);
-        })
-        .catch(err => {
-          document.getElementById('post-content').innerHTML = "<p class='text-red-500'>글을 불러올 수 없습니다.</p>";
-        });
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get('file');
+    if (!file) {
+      document.getElementById('content').innerHTML = '<p>파일을 지정해주세요 (?file=파일이름)</p>';
     } else {
-      document.getElementById('post-content').innerHTML = "<p class='text-gray-600'>파일명이 지정되지 않았습니다.</p>";
+      fetch(`./posts/${file}.md`)
+        .then(res => res.text())
+        .then(md => {
+          const body = md.replace(/---[\s\S]*?---/, '');  // YAML 제거
+          document.getElementById('content').innerHTML = marked.parse(body);
+        });
     }
   </script>
 </body>
