@@ -48,15 +48,17 @@
     fetch(`./posts/${file}.md`)
       .then(res => res.text())
       .then(text => {
-        const frontmatterMatch = text.match(/^---\n([\s\S]*?)\n---/);
+        const frontmatterMatch = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
         let html = '';
+
         if (frontmatterMatch) {
-          const fmLines = frontmatterMatch[1].split('\n');
+          const fmLines = frontmatterMatch[1].split(/\r?\n/);
           const meta = {};
           fmLines.forEach(line => {
             const [key, ...rest] = line.split(':');
             meta[key.trim()] = rest.join(':').trim();
           });
+
           const body = text.replace(frontmatterMatch[0], '');
           html += `
             <div class="mb-8">
@@ -70,6 +72,7 @@
         } else {
           html = marked.parse(text);
         }
+
         document.getElementById('post-content').innerHTML = html;
       });
   </script>
