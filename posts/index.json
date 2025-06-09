@@ -1,7 +1,8 @@
 [
   {
-    "file": "2025-06-12",
-    "title": "첫 블로그 글입니다",
-    "thumbnail": "https://mnllab.github.io/mnlbiz/assets/thumb_2025-06-12.jpg"
+    "file": "template",
+    "title": "스타트업이 빠지는 함정 3가지",
+    "summary": "초기 창업자가 자주 빠지는 3가지 실수와 그 대안에 대해 이야기합니다.",
+    "thumbnail": "/assets/thumb_2025-06-11.jpg"
   }
 ]
