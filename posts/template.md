@@ -2,7 +2,7 @@
 title: 스타트업이 빠지는 함정 3가지
 date: 2025-06-11
 summary: 초기 창업자가 자주 빠지는 3가지 실수와 그 대안에 대해 이야기합니다.
-thumbnail: https://placehold.co/600x360/ffe8b6/111111?text=썸네일
+thumbnail: https://cdn.pixabay.com/photo/2015/11/02/15/03/startup-1018511_1280.png
 ---
 
 스타트업을 처음 시작한 대표들이 자주 겪는 실수에는 몇 가지 공통점이 있습니다.  
