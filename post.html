@@ -3,58 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MNL 블로그</title>
+  <title>창업 이야기</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans">
-  <div class="max-w-3xl mx-auto py-12 px-6">
-    <a href="blog.html" class="text-sm text-amber-600 hover:underline">&larr; 블로그 목록</a>
-    
-    <!-- 썸네일 -->
-    <div id="thumbnail-wrapper" class="mt-6 hidden">
-      <img id="post-thumbnail" class="w-full max-h-[400px] object-cover rounded-xl shadow mb-6" alt="썸네일 이미지">
-    </div>
-
-    <!-- 제목 -->
-    <h1 id="post-title" class="text-3xl font-bold mb-4">제목 로딩 중...</h1>
-
-    <!-- 본문 -->
-    <div id="post-content" class="prose prose-lg max-w-none text-gray-800"></div>
+<body class="bg-white text-gray-800 font-sans">
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <div id="post-content" class="prose lg:prose-xl"></div>
   </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
-    if (!file) {
-      document.getElementById('post-content').innerHTML = "<p class='text-red-600'>파일 이름이 없습니다.</p>";
-    } else {
-      fetch(`./posts/${file}.md`)
-        .then(res => res.text())
-        .then(text => {
-          // 제목 추출
-          const titleMatch = text.match(/title:\s*(.+)/);
-          const title = titleMatch ? titleMatch[1].trim() : file;
-          document.getElementById('post-title').innerText = title;
-
-          // 썸네일 추출
-          const thumbMatch = text.match(/thumbnail:\s*(.+)/);
-          if (thumbMatch) {
-            const img = document.getElementById('post-thumbnail');
-            img.src = thumbMatch[1].trim();
-            img.alt = title;
-            document.getElementById('thumbnail-wrapper').classList.remove('hidden');
-          }
-
-          // 본문 렌더링 (프론트매터 제거 후 마크다운 처리)
-          const body = text.replace(/^---[\s\S]+?---/, '').trim();
-          document.getElementById('post-content').innerHTML = marked.parse(body);
-        })
-        .catch(err => {
-          console.error(err);
-          document.getElementById('post-content').innerHTML = "<p class='text-red-600'>파일을 불러올 수 없습니다.</p>";
-        });
-    }
+    fetch(`./posts/${file}.md`)
+      .then(res => res.text())
+      .then(text => {
+        // frontmatter 추출
+        const frontmatterMatch = text.match(/^---\n([\s\S]*?)\n---/);
+        let html = '';
+        if (frontmatterMatch) {
+          const fmLines = frontmatterMatch[1].split('\n');
+          const meta = {};
+          fmLines.forEach(line => {
+            const [key, ...rest] = line.split(':');
+            meta[key.trim()] = rest.join(':').trim();
+          });
+          const body = text.replace(frontmatterMatch[0], '');
+          html += `
+            <div class="mb-8">
+              <img src="${meta.thumbnail}" class="w-full h-64 object-cover rounded-xl shadow mb-4">
+              <h1 class="text-3xl font-bold mb-2">${meta.title}</h1>
+              <p class="text-gray-500 text-sm">${meta.date}</p>
+              <p class="mt-4 text-lg text-gray-600">${meta.summary}</p>
+            </div>
+            <div>${marked.parse(body)}</div>
+          `;
+        } else {
+          html = marked.parse(text);
+        }
+        document.getElementById('post-content').innerHTML = html;
+      });
   </script>
 </body>
 </html>
