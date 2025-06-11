@@ -74,7 +74,7 @@
           const body = text.replace(frontmatterMatch[0], '').trim();
           html += `
             <div class="mb-8">
-              <img src="${meta.thumbnail || ''}" class="w-full h-64 object-cover rounded-xl shadow mb-6" onerror="this.style.display='none'">
+              <img src="${meta.thumbnail || ''}" class="w-full h-64 object-scale-down rounded-xl shadow mb-6" onerror="this.style.display='none'">
               <h1 class="text-4xl font-bold mb-2">${meta.title || '제목 없음'}</h1>
               <p class="text-sm text-gray-500 mb-1">${meta.date || ''}</p>
               <p class="text-lg text-gray-600 mb-6">${meta.summary || ''}</p>
