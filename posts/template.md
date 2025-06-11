@@ -4,7 +4,6 @@ date: 2025-06-11
 summary: 초기 창업자가 자주 빠지는 3가지 실수와 그 대안에 대해 이야기합니다.
 thumbnail: https://cdn.pixabay.com/photo/2015/11/02/15/03/startup-1018511_1280.png
 ---
-
 ## 들어가며
 
 ![스타트업 성장](https://cdn.pixabay.com/photo/2016/04/20/08/21/entrepreneur-1340649_1280.jpg)
