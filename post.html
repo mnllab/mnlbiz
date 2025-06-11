@@ -41,7 +41,13 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
-    fetch(`./posts/${file}.md`)
+    
+    // 상대 경로로 시도
+    const fetchUrl = `./posts/${file}.md`;
+    
+    console.log('Fetch URL:', fetchUrl);
+    
+    fetch(fetchUrl)
       .then(res => res.text())
       .then(text => {
         const frontmatterMatch = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
