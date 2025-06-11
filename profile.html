@@ -199,9 +199,45 @@
                 </div>
             </section>
         </div>
-    </div>
+    </main>
+    
+    <!-- 푸터 -->
+    <footer class="bg-gray-800 text-gray-300 text-sm">
+        <div class="container mx-auto px-6 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <a href="index.html" class="text-3xl font-black text-white tracking-tight">MNL</a>
+                    <p class="mt-2 text-gray-400">스타트업의 가장 확실한 나침반</p>
+                </div>
+                <div class="text-gray-400">
+                    <h4 class="font-bold text-white mb-2">Company Info</h4>
+                     <p>회사명: 주식회사 아리드리 (ARIDRI, Inc.)</p>
+                    <p>대표자: 김장길</p>
+                    <p>사업자등록번호: 522-87-02756</p>
+                    <p>통신판매업신고: 2023-서울강서-0303</p>
+                </div>
+                <div class="text-gray-400">
+                     <h4 class="font-bold text-white mb-2">Contact</h4>
+                    <p>주소: 서울특별시 강서구 공항대로 186, 1305호</p>
+                    <p>이메일: contact@mnlbiz.com</p>
+                    <p>전화: 050-6787-0921</p>
+                </div>
+            </div>
+            <div class="mt-10 pt-8 border-t border-gray-700 text-center text-gray-500">
+                <p>&copy; 2025 ARIDRI, Inc. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
     
     <script>
+        // 모바일 메뉴 토글 스크립트
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 탭 기능
         function openTab(event, tabName) {
             // 모든 탭 컨텐츠 숨기기
             let contents = document.getElementsByClassName("content");
