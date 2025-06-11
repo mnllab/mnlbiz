@@ -42,9 +42,11 @@
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
     
-    // 상대 경로로 시도
-    const fetchUrl = `./posts/${file}.md`;
+    // 현재 도메인 기반으로 경로 구성
+    const baseUrl = window.location.origin + window.location.pathname.replace('/post.html', '');
+    const fetchUrl = `${baseUrl}/posts/${file}.md`;
     
+    console.log('Base URL:', baseUrl);
     console.log('Fetch URL:', fetchUrl);
     
     fetch(fetchUrl)
