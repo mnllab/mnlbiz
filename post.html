@@ -28,52 +28,61 @@
       </a>
     </div>
   </header>
-
   <!-- 본문 콘텐츠 -->
   <main class="max-w-3xl mx-auto px-6 py-16">
     <div id="post-content" class="prose lg:prose-xl"></div>
   </main>
-
   <!-- 푸터 -->
   <footer class="bg-gray-800 text-gray-300 text-sm mt-16">
     <div class="container mx-auto px-6 py-10 text-center">
       &copy; 2025 ARIDRI, Inc. All Rights Reserved.
     </div>
   </footer>
-
   <script>
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file');
-
     fetch(`./posts/${file}.md`)
       .then(res => res.text())
       .then(text => {
         const frontmatterMatch = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
         let html = '';
-
         if (frontmatterMatch) {
           const fmLines = frontmatterMatch[1].split(/\r?\n/);
           const meta = {};
           fmLines.forEach(line => {
-            const [key, ...rest] = line.split(':');
-            meta[key.trim()] = rest.join(':').trim();
+            if (line.trim() && line.includes(':')) {  // 빈 줄과 콜론 없는 줄 제외
+              const [key, ...rest] = line.split(':');
+              let value = rest.join(':').trim();
+              // 따옴표 제거 (있는 경우)
+              if ((value.startsWith('"') && value.endsWith('"')) || 
+                  (value.startsWith("'") && value.endsWith("'"))) {
+                value = value.slice(1, -1);
+              }
+              meta[key.trim()] = value;
+            }
           });
-
-          const body = text.replace(frontmatterMatch[0], '');
+          
+          // 디버깅용 콘솔 출력 (필요시 제거)
+          console.log('Parsed meta:', meta);
+          
+          const body = text.replace(frontmatterMatch[0], '').trim();
           html += `
             <div class="mb-8">
-              <img src="${meta.thumbnail}" class="w-full h-64 object-cover rounded-xl shadow mb-6">
-              <h1 class="text-4xl font-bold mb-2">${meta.title}</h1>
-              <p class="text-sm text-gray-500 mb-1">${meta.date}</p>
-              <p class="text-lg text-gray-600 mb-6">${meta.summary}</p>
+              <img src="${meta.thumbnail || ''}" class="w-full h-64 object-cover rounded-xl shadow mb-6" onerror="this.style.display='none'">
+              <h1 class="text-4xl font-bold mb-2">${meta.title || '제목 없음'}</h1>
+              <p class="text-sm text-gray-500 mb-1">${meta.date || ''}</p>
+              <p class="text-lg text-gray-600 mb-6">${meta.summary || ''}</p>
             </div>
             <div>${marked.parse(body)}</div>
           `;
         } else {
           html = marked.parse(text);
         }
-
         document.getElementById('post-content').innerHTML = html;
+      })
+      .catch(error => {
+        console.error('파일 로드 오류:', error);
+        document.getElementById('post-content').innerHTML = '<p>포스트를 불러올 수 없습니다.</p>';
       });
   </script>
 </body>
