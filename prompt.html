@@ -14,50 +14,36 @@
       overflow: hidden;
     }
     #container {
-      position: relative;
+      display: flex;
+      flex-direction: column;
       width: 100vw;
       height: 100vh;
     }
-    #topBar {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      background: rgba(0,0,0,0.7);
-      padding: 0.5rem;
+    .controlGroup {
+      padding: 0.5rem 1rem;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 0.5rem;
+      background: rgba(0,0,0,0.7);
       z-index: 10;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .btnGroup {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      align-items: center;
     }
     button {
-      padding: 0.4rem 0.8rem;
-      font-size: 0.9rem;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
       background: #333;
       border: 1px solid #666;
       border-radius: 5px;
       color: white;
       cursor: pointer;
+      width: 100%;
     }
-#presetList {
-  position: relative; /* 변경: absolute → relative */
-  margin-top: 4.5rem; /* 헤더 아래로 내림 */
-  width: 100%;
-  display: flex;
-  overflow-x: auto;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  box-sizing: border-box;
-  z-index: 5;
-  -webkit-overflow-scrolling: touch;
-}
+    #presetList {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+    }
     .presetBtn {
       background: #222;
       border: 1px solid #555;
@@ -69,14 +55,11 @@
       cursor: pointer;
     }
     #promptArea {
-      position: absolute;
-      top: 7rem;
-      bottom: 0;
+      flex: 1;
       width: 100%;
       overflow-y: auto;
     }
     #prompter {
-      position: relative;
       padding: 2rem;
       font-size: 1.6rem;
       line-height: 1.6;
@@ -99,26 +82,20 @@
 </head>
 <body>
   <div id="container">
-    <div id="topBar">
-      <div class="btnGroup">
-        <button id="playBtn" onclick="toggleScroll()">Play</button>
-        <button onclick="resetScroll()">Reset</button>
+    <div class="controlGroup">
+      <button id="playBtn" onclick="toggleScroll()">Play</button>
+      <div>
+        <button onclick="setSpeed(60)">속도: 느림</button>
+        <button onclick="setSpeed(100)">속도: 보통</button>
+        <button onclick="setSpeed(150)">속도: 빠름</button>
       </div>
-      <div class="btnGroup">
-        <span>속도:</span>
-        <button onclick="setSpeed(60)">느림</button>
-        <button onclick="setSpeed(100)">보통</button>
-        <button onclick="setSpeed(150)">빠름</button>
+      <div>
+        <button onclick="setFont(1.4)">크기: 작게</button>
+        <button onclick="setFont(1.6)">크기: 보통</button>
+        <button onclick="setFont(2)">크기: 크게</button>
       </div>
-      <div class="btnGroup">
-        <span>크기:</span>
-        <button onclick="setFont(1.4)">작게</button>
-        <button onclick="setFont(1.6)">보통</button>
-        <button onclick="setFont(2)">크게</button>
-      </div>
+      <div id="presetList"></div>
     </div>
-
-    <div id="presetList"></div>
 
     <div id="promptArea">
       <div id="prompter"></div>
@@ -138,7 +115,7 @@
       return md
         .replace(/^#{1,6}\s+/gm, '')
         .replace(/(\*\*|__)(.*?)\1/g, '$2')
-        .replace(/(\*|-)\s+/g, '• ')
+        .replace(/(\*|-)+\s+/g, '• ')
         .replace(/`(.+?)`/g, '$1');
     }
 
@@ -190,7 +167,6 @@
       }
     });
 
-    // Load 001.md ~ 005.md
     for (let i = 1; i <= 5; i++) {
       const num = i.toString().padStart(3, '0');
       const path = `/prompt/${num}.md`;
