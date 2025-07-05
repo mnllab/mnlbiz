@@ -51,18 +51,19 @@
       overflow: hidden;
     }
 
-  #prompter {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    padding: 1rem;
-    font-size: 2rem;
-    line-height: 1.6;
-    white-space: pre-wrap;       /* ✅ 줄바꿈 허용 */
-    word-break: break-word;      /* ✅ 긴 단어도 줄바꿈 */
-    animation: scrollUp linear infinite;
-    color: white;
-  }
+#prompter {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  padding: 2rem;
+  font-size: 1.6rem;             /* ✅ 기본 폰트 크기 한 단계 낮춤 */
+  line-height: 1.6;
+  white-space: pre-wrap;         /* ✅ 줄바꿈 유지 */
+  word-break: break-word;        /* ✅ 길게 붙은 단어 줄바꿈 */
+  overflow-wrap: break-word;     /* ✅ 문장 끝 튀어나감 방지 */
+  animation: scrollUp linear infinite;
+  color: white;
+}
 
     .titleLine {
       color: yellow;
