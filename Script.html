@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>간단 프롬프터</title>
+  <title>입력형 프롬프터</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
   <style>
     body {
@@ -49,11 +49,11 @@
       width: 100%;
       bottom: 0;
       padding: 2rem;
-      font-size: 1.6rem;                  /* ✅ 기본 폰트 크기 */
+      font-size: 1.6rem;
       line-height: 1.6;
-      white-space: pre-wrap;              /* ✅ 줄바꿈 유지 */
-      word-break: break-word;             /* ✅ 긴 단어 줄바꿈 */
-      overflow-wrap: break-word;          /* ✅ 문장 끝 튀어나감 방지 */
+      white-space: pre-wrap;           /* ✅ 줄바꿈 유지 */
+      word-break: break-word;          /* ✅ 단어 자르기 */
+      overflow-wrap: break-word;       /* ✅ 문장 끝 튀는 것 방지 */
       animation: scrollUp linear infinite;
       color: white;
     }
@@ -81,7 +81,7 @@
 <body>
   <div id="container">
     <div id="controls">
-      <textarea id="textInput" placeholder="여기에 텍스트를 붙여넣고 ▶️ 버튼을 누르세요"></textarea>
+      <textarea id="textInput" placeholder="여기에 텍스트를 붙여넣고 ▶️ 누르세요"></textarea>
       <div style="display: flex; gap: 0.5rem; align-items: center;">
         <button onclick="startScroll()">▶️ 재생</button>
         <button onclick="toggleScroll()">⏸ 멈춤</button>
@@ -122,6 +122,7 @@
     }
 
     function toggleScroll() {
+      if (!prompter.textContent) return;
       prompter.style.animationPlayState = isPaused ? "running" : "paused";
       isPaused = !isPaused;
     }
@@ -132,6 +133,19 @@
 
     speedSlider.addEventListener("input", () => {
       if (prompter.textContent) startScroll();
+    });
+
+    // ⌨️ 스페이스: 멈춤/시작, 엔터: 리셋
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "TEXTAREA") return; // 입력 중이면 무시
+      if (e.code === "Space") {
+        e.preventDefault();
+        toggleScroll();
+      }
+      if (e.code === "Enter") {
+        e.preventDefault();
+        startScroll();
+      }
     });
   </script>
 </body>
