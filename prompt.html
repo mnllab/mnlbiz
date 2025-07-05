@@ -186,7 +186,8 @@
       prompter.innerHTML = `${title}\n${body}`;
       prompter.style.animation = "none";
       void prompter.offsetWidth;
-      const duration = 100 - parseInt(speedSlider.value); // 속도: 숫자가 클수록 빠르게
+
+      const duration = 200 - parseInt(speedSlider.value); // ← 기본 100, 슬라이더 값 클수록 빠름
       prompter.style.animation = `scrollUp linear infinite`;
       prompter.style.animationDuration = `${duration}s`;
       isPaused = false;
