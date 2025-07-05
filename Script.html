@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>입력형 프롬프터</title>
+  <title>입력형 모바일 프롬프터</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
   <style>
     body {
@@ -14,60 +14,57 @@
       overflow: hidden;
     }
     #container {
-      position: relative;
+      display: flex;
+      flex-direction: column;
       width: 100vw;
       height: 100vh;
     }
-    #topBar {
-      position: absolute;
-      top: 0;
-      width: 100%;
+    .controlGroup {
+      padding: 0.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
       background: rgba(0,0,0,0.7);
-      padding: 0.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
       z-index: 10;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .btnGroup {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      align-items: center;
     }
     button {
-      padding: 0.4rem 0.8rem;
-      font-size: 0.9rem;
+      padding: 0.6rem 1rem;
+      font-size: 1rem;
       background: #333;
       border: 1px solid #666;
       border-radius: 5px;
       color: white;
       cursor: pointer;
     }
-    #inputArea {
-      position: absolute;
-      top: 3.5rem;
-      width: 100%;
-      padding: 0.5rem;
-      box-sizing: border-box;
+    .inlineButtons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
     }
-    #textInput {
-      width: 100%;
-      height: 80px;
-      font-size: 1rem;
-      padding: 0.5rem;
+    #presetList {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 0.5rem;
+      padding: 0.5rem 0;
+    }
+    .presetBtn {
+      background: #222;
+      border: 1px solid #555;
+      color: white;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
     }
     #promptArea {
-      position: absolute;
-      top: 9rem;
-      bottom: 0;
+      flex: 1;
       width: 100%;
       overflow-y: auto;
     }
     #prompter {
-      position: relative;
       padding: 2rem;
       font-size: 1.6rem;
       line-height: 1.6;
@@ -77,6 +74,21 @@
       animation: scrollUp linear infinite;
       animation-play-state: running;
     }
+    #textInput {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background: #111;
+      color: white;
+    }
+    .titleLine {
+      color: yellow;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
     @keyframes scrollUp {
       0% { transform: translateY(100%); }
       100% { transform: translateY(-100%); }
@@ -85,27 +97,20 @@
 </head>
 <body>
   <div id="container">
-    <div id="topBar">
-      <div class="btnGroup">
-        <button id="playBtn" onclick="toggleScroll()">Play</button>
-        <button onclick="resetScroll()">Reset</button>
-      </div>
-      <div class="btnGroup">
-        <span>속도:</span>
+    <div class="controlGroup">
+      <textarea id="textInput" placeholder="텍스트를 입력하고 Play를 누르세요"></textarea>
+      <button id="playBtn" onclick="startScrollFromInput()">Play</button>
+      <div class="inlineButtons">
         <button onclick="setSpeed(60)">느림</button>
         <button onclick="setSpeed(100)">보통</button>
         <button onclick="setSpeed(150)">빠름</button>
       </div>
-      <div class="btnGroup">
-        <span>크기:</span>
+      <div class="inlineButtons">
         <button onclick="setFont(1.4)">작게</button>
         <button onclick="setFont(1.6)">보통</button>
         <button onclick="setFont(2)">크게</button>
       </div>
-    </div>
-
-    <div id="inputArea">
-      <textarea id="textInput" placeholder="여기에 텍스트를 붙여넣고 Play를 누르세요."></textarea>
+      <div id="presetList"></div>
     </div>
 
     <div id="promptArea">
@@ -115,18 +120,28 @@
 
   <script>
     const prompter = document.getElementById("prompter");
-    const textInput = document.getElementById("textInput");
+    const presetList = document.getElementById("presetList");
     const playBtn = document.getElementById("playBtn");
+    const textInput = document.getElementById("textInput");
 
     let isPaused = false;
     let currentText = "";
     let currentSpeed = 100;
 
-    function startScroll(text) {
-      currentText = text.trim();
-      if (!currentText) return;
+    function stripMarkdown(md) {
+      return md
+        .replace(/^#{1,6}\s+/gm, '')
+        .replace(/(\*\*|__)(.*?)\1/g, '$2')
+        .replace(/(\*|-)+\s+/g, '• ')
+        .replace(/`(.+?)`/g, '$1');
+    }
 
-      prompter.textContent = currentText;
+    function startScroll(text) {
+      currentText = text;
+      const lines = text.split('\n');
+      const title = `<div class="titleLine">${stripMarkdown(lines[0])}</div>`;
+      const body = stripMarkdown(lines.slice(1).join('\n'));
+      prompter.innerHTML = `${title}\n${body}`;
       prompter.style.animation = "none";
       void prompter.offsetWidth;
 
@@ -138,6 +153,11 @@
       playBtn.textContent = "Pause";
     }
 
+    function startScrollFromInput() {
+      const text = textInput.value.trim();
+      if (text) startScroll(text);
+    }
+
     function toggleScroll() {
       if (!prompter.textContent) return;
       isPaused = !isPaused;
@@ -146,8 +166,7 @@
     }
 
     function resetScroll() {
-      const text = textInput.value.trim();
-      if (text) startScroll(text);
+      if (currentText) startScroll(currentText);
     }
 
     function setSpeed(val) {
@@ -160,7 +179,6 @@
     }
 
     document.addEventListener("keydown", (e) => {
-      if (e.target.tagName === "TEXTAREA") return;
       if (e.code === "Space") {
         e.preventDefault();
         toggleScroll();
@@ -170,6 +188,22 @@
         resetScroll();
       }
     });
+
+    for (let i = 1; i <= 5; i++) {
+      const num = i.toString().padStart(3, '0');
+      const path = `/prompt/${num}.md`;
+      fetch(path)
+        .then(res => res.text())
+        .then(text => {
+          const title = text.split('\n')[0].replace(/^#+\s*/, '').trim();
+          const btn = document.createElement("button");
+          btn.className = "presetBtn";
+          btn.textContent = `${num} - ${title}`;
+          btn.addEventListener("click", () => startScroll(text));
+          presetList.appendChild(btn);
+        })
+        .catch(() => {});
+    }
   </script>
 </body>
 </html>
