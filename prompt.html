@@ -23,7 +23,7 @@
       padding: 0.5rem 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.8rem;
       background: rgba(0,0,0,0.7);
       z-index: 10;
     }
@@ -35,7 +35,12 @@
       border-radius: 5px;
       color: white;
       cursor: pointer;
-      width: 100%;
+    }
+    .inlineButtons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
     }
     #presetList {
       display: flex;
@@ -84,15 +89,15 @@
   <div id="container">
     <div class="controlGroup">
       <button id="playBtn" onclick="toggleScroll()">Play</button>
-      <div>
+      <div class="inlineButtons">
         <button onclick="setSpeed(60)">속도: 느림</button>
-        <button onclick="setSpeed(100)">속도: 보통</button>
-        <button onclick="setSpeed(150)">속도: 빠름</button>
+        <button onclick="setSpeed(100)">보통</button>
+        <button onclick="setSpeed(150)">빠름</button>
       </div>
-      <div>
+      <div class="inlineButtons">
         <button onclick="setFont(1.4)">크기: 작게</button>
-        <button onclick="setFont(1.6)">크기: 보통</button>
-        <button onclick="setFont(2)">크기: 크게</button>
+        <button onclick="setFont(1.6)">보통</button>
+        <button onclick="setFont(2)">크게</button>
       </div>
       <div id="presetList"></div>
     </div>
