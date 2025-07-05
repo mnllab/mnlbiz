@@ -51,17 +51,18 @@
       overflow: hidden;
     }
 
-    #prompter {
-      position: absolute;
-      width: 100%;
-      bottom: 0;
-      padding: 2rem;
-      font-size: 2rem;
-      line-height: 1.6;
-      white-space: pre-line;
-      animation: scrollUp linear infinite;
-      color: white;
-    }
+  #prompter {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding: 1rem;
+    font-size: 2rem;
+    line-height: 1.6;
+    white-space: pre-wrap;       /* ✅ 줄바꿈 허용 */
+    word-break: break-word;      /* ✅ 긴 단어도 줄바꿈 */
+    animation: scrollUp linear infinite;
+    color: white;
+  }
 
     .titleLine {
       color: yellow;
