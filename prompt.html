@@ -46,16 +46,18 @@
       color: white;
       cursor: pointer;
     }
-    #presetList {
-      position: absolute;
-      top: 3.5rem;
-      width: 100%;
-      display: flex;
-      overflow-x: auto;
-      gap: 0.5rem;
-      padding: 0.5rem;
-      box-sizing: border-box;
-    }
+#presetList {
+  position: relative; /* 변경: absolute → relative */
+  margin-top: 4.5rem; /* 헤더 아래로 내림 */
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
+  z-index: 5;
+  -webkit-overflow-scrolling: touch;
+}
     .presetBtn {
       background: #222;
       border: 1px solid #555;
