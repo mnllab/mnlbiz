@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>프롬프터 (MD 버전)</title>
+  <title>모바일 프롬프터</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
   <style>
     body {
@@ -22,18 +22,29 @@
       position: absolute;
       top: 0;
       width: 100%;
+      background: rgba(0,0,0,0.7);
+      padding: 0.5rem;
       display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      z-index: 10;
       justify-content: space-between;
       align-items: center;
-      padding: 0.5rem 1rem;
-      background: rgba(0,0,0,0.7);
-      z-index: 10;
-      flex-wrap: wrap;
     }
-    .topGroup {
+    .btnGroup {
       display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
       align-items: center;
-      gap: 0.5rem;
+    }
+    button {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+      background: #333;
+      border: 1px solid #666;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
     }
     #presetList {
       position: absolute;
@@ -42,7 +53,7 @@
       display: flex;
       overflow-x: auto;
       gap: 0.5rem;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem;
       box-sizing: border-box;
     }
     .presetBtn {
@@ -52,58 +63,56 @@
       padding: 0.6rem 1rem;
       border-radius: 6px;
       white-space: nowrap;
-      cursor: pointer;
       flex-shrink: 0;
+      cursor: pointer;
     }
     #promptArea {
       position: absolute;
       top: 7rem;
       bottom: 0;
       width: 100%;
-      overflow: hidden;
+      overflow-y: auto;
     }
     #prompter {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
+      position: relative;
       padding: 2rem;
       font-size: 1.6rem;
       line-height: 1.6;
       white-space: pre-wrap;
-      word-break: break-word;
+      word-break: keep-all;
       overflow-wrap: break-word;
       animation: scrollUp linear infinite;
-      color: white;
-    }
-    @keyframes scrollUp {
-      0% { transform: translateY(100%); }
-      100% { transform: translateY(-100%); }
+      animation-play-state: running;
     }
     .titleLine {
       color: yellow;
       font-weight: bold;
       margin-bottom: 1rem;
     }
-    button, label {
-      font-size: 0.9rem;
-      color: white;
-    }
-    input[type="range"] {
-      vertical-align: middle;
+    @keyframes scrollUp {
+      0% { transform: translateY(100%); }
+      100% { transform: translateY(-100%); }
     }
   </style>
 </head>
 <body>
   <div id="container">
     <div id="topBar">
-      <div class="topGroup">
-        <button onclick="toggleScroll()">⏯ 멈춤/재시작</button>
-        <label>글자크기
-          <input type="range" id="fontSlider" min="1.2" max="3.0" step="0.1" value="1.6">
-        </label>
-        <label>속도
-          <input type="range" id="speedSlider" min="10" max="190" step="1" value="100">
-        </label>
+      <div class="btnGroup">
+        <button id="playBtn" onclick="toggleScroll()">Play</button>
+        <button onclick="resetScroll()">Reset</button>
+      </div>
+      <div class="btnGroup">
+        <span>속도:</span>
+        <button onclick="setSpeed(60)">느림</button>
+        <button onclick="setSpeed(100)">보통</button>
+        <button onclick="setSpeed(150)">빠름</button>
+      </div>
+      <div class="btnGroup">
+        <span>크기:</span>
+        <button onclick="setFont(1.4)">작게</button>
+        <button onclick="setFont(1.6)">보통</button>
+        <button onclick="setFont(2)">크게</button>
       </div>
     </div>
 
@@ -117,11 +126,11 @@
   <script>
     const prompter = document.getElementById("prompter");
     const presetList = document.getElementById("presetList");
-    const fontSlider = document.getElementById("fontSlider");
-    const speedSlider = document.getElementById("speedSlider");
+    const playBtn = document.getElementById("playBtn");
 
     let isPaused = false;
     let currentText = "";
+    let currentSpeed = 100;
 
     function stripMarkdown(md) {
       return md
@@ -140,26 +149,33 @@
       prompter.style.animation = "none";
       void prompter.offsetWidth;
 
-      const duration = 250 - parseInt(speedSlider.value);
+      const duration = 250 - currentSpeed;
       prompter.style.animation = `scrollUp linear infinite`;
       prompter.style.animationDuration = `${duration}s`;
       prompter.style.animationPlayState = "running";
       isPaused = false;
+      playBtn.textContent = "Pause";
     }
 
     function toggleScroll() {
       if (!prompter.textContent) return;
-      prompter.style.animationPlayState = isPaused ? "running" : "paused";
       isPaused = !isPaused;
+      prompter.style.animationPlayState = isPaused ? "paused" : "running";
+      playBtn.textContent = isPaused ? "Play" : "Pause";
     }
 
-    fontSlider.addEventListener("input", () => {
-      prompter.style.fontSize = `${fontSlider.value}rem`;
-    });
-
-    speedSlider.addEventListener("input", () => {
+    function resetScroll() {
       if (currentText) startScroll(currentText);
-    });
+    }
+
+    function setSpeed(val) {
+      currentSpeed = val;
+      if (currentText) startScroll(currentText);
+    }
+
+    function setFont(rem) {
+      prompter.style.fontSize = `${rem}rem`;
+    }
 
     document.addEventListener("keydown", (e) => {
       if (e.code === "Space") {
@@ -168,7 +184,7 @@
       }
       if (e.code === "Enter") {
         e.preventDefault();
-        if (currentText) startScroll(currentText);
+        resetScroll();
       }
     });
 
