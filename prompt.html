@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>프롬프터</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: 'Noto Sans KR', sans-serif;
+      overflow: hidden;
+    }
+
+    #container {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    #topBar {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.3rem 0.7rem;
+      background: rgba(0,0,0,0.7);
+      z-index: 10;
+    }
+
+    #leftTools, #rightTools {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .topBtn, .colorBtn {
+      padding: 0.3rem 0.6rem;
+      background: #333;
+      border: 1px solid #666;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .colorBtn.active {
+      border-color: yellow;
+    }
+
+    #promptArea {
+      position: absolute;
+      top: 2.5rem;
+      bottom: 10rem;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #prompter {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      padding: 2rem;
+      font-size: 1.8rem;
+      line-height: 1.6;
+      white-space: pre-line;
+      animation: scrollUp linear infinite;
+      animation-duration: 30s;
+      color: white;
+    }
+
+    @keyframes scrollUp {
+      0% { transform: translateY(100%); }
+      100% { transform: translateY(-100%); }
+    }
+
+    #presetList {
+      position: absolute;
+      bottom: 10rem;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding: 0.5rem;
+      gap: 0.5rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .presetBtn {
+      background: #222;
+      border: 1px solid #555;
+      color: #fff;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    #inputArea {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    #textInput {
+      width: 100%;
+      height: 60px;
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+
+    .controlRow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .controlBtn {
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      border: 1px solid #666;
+      border-radius: 6px;
+      background: #222;
+      color: white;
+      cursor: pointer;
+    }
+
+    #speedSlider {
+      width: 150px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+
+    <div id="topBar">
+      <div id="leftTools">
+        <button class="topBtn" onclick="changeFontSize('small')">작게</button>
+        <button class="topBtn" onclick="changeFontSize('medium')">보통</button>
+        <button class="topBtn" onclick="changeFontSize('large')">크게</button>
+      </div>
+      <div id="rightTools">
+        <button class="colorBtn" data-color="white">흰색</button>
+        <button class="colorBtn" data-color="yellow">노랑</button>
+        <button class="colorBtn" data-color="cyan">청록</button>
+      </div>
+    </div>
+
+    <div id="promptArea">
+      <div id="prompter"></div>
+    </div>
+
+    <div id="presetList"></div>
+
+    <div id="inputArea">
+      <div class="controlRow">
+        <button class="controlBtn" onclick="toggleScroll()">⏯ 멈춤/재시작</button>
+        <label style="color:white;">속도:
+          <input type="range" id="speedSlider" min="10" max="60" step="1" value="30" />
+          <span id="speedLabel">30s</span>
+        </label>
+      </div>
+      <textarea id="textInput" placeholder="텍스트를 입력하고 Enter 누르세요 (Shift+Enter 줄바꿈)"></textarea>
+    </div>
+  </div>
+
+  <script>
+    const presetList = document.getElementById("presetList");
+    const prompter = document.getElementById("prompter");
+    const textInput = document.getElementById("textInput");
+    const speedSlider = document.getElementById("speedSlider");
+    const speedLabel = document.getElementById("speedLabel");
+
+    let isPaused = false;
+    let currentDuration = 30;
+
+    function stripMarkdown(md) {
+      return md
+        .replace(/^#{1,6}\s+/gm, '')
+        .replace(/(\*\*|__)(.*?)\1/g, '$2')
+        .replace(/(\*|-)\s+/g, '• ')
+        .replace(/`(.+?)`/g, '$1');
+    }
+
+    function startScroll(text) {
+      prompter.textContent = stripMarkdown(text);
+      prompter.style.animation = "none";
+      void prompter.offsetWidth;
+      prompter.style.animation = `scrollUp linear infinite`;
+      prompter.style.animationDuration = `${currentDuration}s`;
+      isPaused = false;
+    }
+
+    function toggleScroll() {
+      prompter.style.animationPlayState = isPaused ? "running" : "paused";
+      isPaused = !isPaused;
+    }
+
+    function changeFontSize(size) {
+      if (size === "small") prompter.style.fontSize = "1.2rem";
+      else if (size === "medium") prompter.style.fontSize = "1.8rem";
+      else if (size === "large") prompter.style.fontSize = "2.4rem";
+    }
+
+    function changeColor(color) {
+      prompter.style.color = color;
+      document.querySelectorAll('.colorBtn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.color === color);
+      });
+    }
+
+    speedSlider.addEventListener("input", () => {
+      currentDuration = parseInt(speedSlider.value);
+      speedLabel.textContent = `${currentDuration}s`;
+      // 재적용
+      const text = prompter.textContent;
+      startScroll(text);
+    });
+
+    document.querySelectorAll('.colorBtn').forEach(btn => {
+      btn.addEventListener("click", () => changeColor(btn.dataset.color));
+    });
+
+    // 자동 로딩: 001.md ~ 020.md → 제목(첫 줄) 가져오기
+    const filePromises = [];
+    for (let i = 1; i <= 20; i++) {
+      const num = i.toString().padStart(3, '0');
+      const path = `/prompt/${num}.md`;
+      filePromises.push(
+        fetch(path).then(res => res.text().then(text => ({
+          filename: num,
+          title: text.split('\n')[0].replace(/^#+\s*/, '').trim(),
+          content: text
+        }))).catch(() => null)
+      );
+    }
+
+    Promise.all(filePromises).then(files => {
+      files.filter(Boolean).forEach(({ filename, title, content }) => {
+        const btn = document.createElement("button");
+        btn.className = "presetBtn";
+        btn.textContent = `${filename} - ${title}`;
+        btn.addEventListener("click", () => startScroll(content));
+        presetList.appendChild(btn);
+      });
+    });
+
+    // 입력
+    textInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        const inputText = textInput.value.trim();
+        if (inputText) {
+          startScroll(inputText);
+          textInput.value = "";
+        }
+      }
+    });
+  </script>
+</body>
+</html>
