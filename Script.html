@@ -18,81 +18,96 @@
       width: 100vw;
       height: 100vh;
     }
-    #controls {
+    #topBar {
       position: absolute;
       top: 0;
       width: 100%;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.7);
+      padding: 0.5rem;
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
-      padding: 0.5rem;
-      align-items: center;
+      gap: 0.5rem;
       z-index: 10;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btnGroup {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      align-items: center;
+    }
+    button {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+      background: #333;
+      border: 1px solid #666;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    #inputArea {
+      position: absolute;
+      top: 3.5rem;
+      width: 100%;
+      padding: 0.5rem;
       box-sizing: border-box;
     }
     #textInput {
-      flex: 1 1 100%;
+      width: 100%;
       height: 80px;
       font-size: 1rem;
       padding: 0.5rem;
     }
     #promptArea {
       position: absolute;
-      top: 130px;
+      top: 9rem;
       bottom: 0;
       width: 100%;
-      overflow: hidden;
+      overflow-y: auto;
     }
     #prompter {
-      position: absolute;
-      width: 100%;
-      bottom: 0;
+      position: relative;
       padding: 2rem;
       font-size: 1.6rem;
       line-height: 1.6;
-      white-space: pre-wrap;           /* ✅ 줄바꿈 유지 */
-      word-break: break-word;          /* ✅ 단어 자르기 */
-      overflow-wrap: break-word;       /* ✅ 문장 끝 튀는 것 방지 */
+      white-space: pre-wrap;
+      word-break: keep-all;
+      overflow-wrap: break-word;
       animation: scrollUp linear infinite;
-      color: white;
+      animation-play-state: running;
     }
     @keyframes scrollUp {
       0% { transform: translateY(100%); }
       100% { transform: translateY(-100%); }
     }
-    button {
-      padding: 0.4rem 1rem;
-      background: #333;
-      border: 1px solid #666;
-      color: white;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    label {
-      color: #ccc;
-      font-size: 0.9rem;
-    }
-    input[type="range"] {
-      vertical-align: middle;
-    }
   </style>
 </head>
 <body>
   <div id="container">
-    <div id="controls">
-      <textarea id="textInput" placeholder="여기에 텍스트를 붙여넣고 ▶️ 누르세요"></textarea>
-      <div style="display: flex; gap: 0.5rem; align-items: center;">
-        <button onclick="startScroll()">▶️ 재생</button>
-        <button onclick="toggleScroll()">⏸ 멈춤</button>
-        <label>크기
-          <input type="range" id="fontSlider" min="1.2" max="3.0" step="0.1" value="1.6">
-        </label>
-        <label>속도
-          <input type="range" id="speedSlider" min="10" max="190" step="1" value="100">
-        </label>
+    <div id="topBar">
+      <div class="btnGroup">
+        <button id="playBtn" onclick="toggleScroll()">Play</button>
+        <button onclick="resetScroll()">Reset</button>
+      </div>
+      <div class="btnGroup">
+        <span>속도:</span>
+        <button onclick="setSpeed(60)">느림</button>
+        <button onclick="setSpeed(100)">보통</button>
+        <button onclick="setSpeed(150)">빠름</button>
+      </div>
+      <div class="btnGroup">
+        <span>크기:</span>
+        <button onclick="setFont(1.4)">작게</button>
+        <button onclick="setFont(1.6)">보통</button>
+        <button onclick="setFont(2)">크게</button>
       </div>
     </div>
+
+    <div id="inputArea">
+      <textarea id="textInput" placeholder="여기에 텍스트를 붙여넣고 Play를 누르세요."></textarea>
+    </div>
+
     <div id="promptArea">
       <div id="prompter"></div>
     </div>
@@ -101,50 +116,58 @@
   <script>
     const prompter = document.getElementById("prompter");
     const textInput = document.getElementById("textInput");
-    const fontSlider = document.getElementById("fontSlider");
-    const speedSlider = document.getElementById("speedSlider");
+    const playBtn = document.getElementById("playBtn");
 
     let isPaused = false;
+    let currentText = "";
+    let currentSpeed = 100;
 
-    function startScroll() {
-      const text = textInput.value.trim();
-      if (!text) return;
+    function startScroll(text) {
+      currentText = text.trim();
+      if (!currentText) return;
 
-      prompter.textContent = text;
+      prompter.textContent = currentText;
       prompter.style.animation = "none";
       void prompter.offsetWidth;
 
-      const duration = 250 - parseInt(speedSlider.value);
+      const duration = 250 - currentSpeed;
       prompter.style.animation = `scrollUp linear infinite`;
       prompter.style.animationDuration = `${duration}s`;
       prompter.style.animationPlayState = "running";
       isPaused = false;
+      playBtn.textContent = "Pause";
     }
 
     function toggleScroll() {
       if (!prompter.textContent) return;
-      prompter.style.animationPlayState = isPaused ? "running" : "paused";
       isPaused = !isPaused;
+      prompter.style.animationPlayState = isPaused ? "paused" : "running";
+      playBtn.textContent = isPaused ? "Play" : "Pause";
     }
 
-    fontSlider.addEventListener("input", () => {
-      prompter.style.fontSize = `${fontSlider.value}rem`;
-    });
+    function resetScroll() {
+      const text = textInput.value.trim();
+      if (text) startScroll(text);
+    }
 
-    speedSlider.addEventListener("input", () => {
-      if (prompter.textContent) startScroll();
-    });
+    function setSpeed(val) {
+      currentSpeed = val;
+      if (currentText) startScroll(currentText);
+    }
 
-    // ⌨️ 스페이스: 멈춤/시작, 엔터: 리셋
+    function setFont(rem) {
+      prompter.style.fontSize = `${rem}rem`;
+    }
+
     document.addEventListener("keydown", (e) => {
-      if (e.target.tagName === "TEXTAREA") return; // 입력 중이면 무시
+      if (e.target.tagName === "TEXTAREA") return;
       if (e.code === "Space") {
         e.preventDefault();
         toggleScroll();
       }
       if (e.code === "Enter") {
         e.preventDefault();
-        startScroll();
+        resetScroll();
       }
     });
   </script>
