@@ -42,23 +42,6 @@
       flex-wrap: nowrap;
       overflow-x: auto;
     }
-    #presetList {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      gap: 0.5rem;
-      padding: 0.5rem 0;
-    }
-    .presetBtn {
-      background: #222;
-      border: 1px solid #555;
-      color: white;
-      padding: 0.6rem 1rem;
-      border-radius: 6px;
-      white-space: nowrap;
-      flex-shrink: 0;
-      cursor: pointer;
-    }
     #promptArea {
       flex: 1;
       width: 100%;
@@ -110,7 +93,6 @@
         <button onclick="setFont(1.6)">보통</button>
         <button onclick="setFont(2)">크게</button>
       </div>
-      <div id="presetList"></div>
     </div>
 
     <div id="promptArea">
@@ -120,7 +102,6 @@
 
   <script>
     const prompter = document.getElementById("prompter");
-    const presetList = document.getElementById("presetList");
     const playBtn = document.getElementById("playBtn");
     const textInput = document.getElementById("textInput");
 
@@ -188,22 +169,6 @@
         resetScroll();
       }
     });
-
-    for (let i = 1; i <= 5; i++) {
-      const num = i.toString().padStart(3, '0');
-      const path = `/prompt/${num}.md`;
-      fetch(path)
-        .then(res => res.text())
-        .then(text => {
-          const title = text.split('\n')[0].replace(/^#+\s*/, '').trim();
-          const btn = document.createElement("button");
-          btn.className = "presetBtn";
-          btn.textContent = `${num} - ${title}`;
-          btn.addEventListener("click", () => startScroll(text));
-          presetList.appendChild(btn);
-        })
-        .catch(() => {});
-    }
   </script>
 </body>
 </html>
