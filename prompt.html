@@ -144,7 +144,7 @@
         <span class="topLabel">글자크기</span>
         <input type="range" id="fontSlider" min="1.2" max="3.0" step="0.1" value="2">
         <span class="topLabel">속도</span>
-        <input type="range" id="speedSlider" min="10" max="60" step="1" value="30">
+        <input type="range" id="speedSlider" min="10" max="190" step="1" value="100">
       </div>
     </div>
 
@@ -186,7 +186,7 @@
       prompter.innerHTML = `${title}\n${body}`;
       prompter.style.animation = "none";
       void prompter.offsetWidth;
-      const duration = 70 - parseInt(speedSlider.value); // 속도: 숫자가 클수록 빠르게
+      const duration = 100 - parseInt(speedSlider.value); // 속도: 숫자가 클수록 빠르게
       prompter.style.animation = `scrollUp linear infinite`;
       prompter.style.animationDuration = `${duration}s`;
       isPaused = false;
