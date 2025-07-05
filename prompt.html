@@ -35,20 +35,12 @@
     #leftTools, #rightTools {
       display: flex;
       gap: 0.5rem;
+      align-items: center;
     }
 
-    .topBtn, .colorBtn {
-      padding: 0.3rem 0.6rem;
-      background: #333;
-      border: 1px solid #666;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .colorBtn.active {
-      border-color: yellow;
+    .topLabel {
+      color: #bbb;
+      font-size: 0.8rem;
     }
 
     #promptArea {
@@ -64,12 +56,16 @@
       width: 100%;
       bottom: 0;
       padding: 2rem;
-      font-size: 1.8rem;
+      font-size: 2rem;
       line-height: 1.6;
       white-space: pre-line;
       animation: scrollUp linear infinite;
-      animation-duration: 30s;
       color: white;
+    }
+
+    .titleLine {
+      color: yellow;
+      font-weight: bold;
     }
 
     @keyframes scrollUp {
@@ -135,8 +131,8 @@
       cursor: pointer;
     }
 
-    #speedSlider {
-      width: 150px;
+    #fontSlider, #speedSlider {
+      width: 100px;
     }
   </style>
 </head>
@@ -145,14 +141,10 @@
 
     <div id="topBar">
       <div id="leftTools">
-        <button class="topBtn" onclick="changeFontSize('small')">작게</button>
-        <button class="topBtn" onclick="changeFontSize('medium')">보통</button>
-        <button class="topBtn" onclick="changeFontSize('large')">크게</button>
-      </div>
-      <div id="rightTools">
-        <button class="colorBtn" data-color="white">흰색</button>
-        <button class="colorBtn" data-color="yellow">노랑</button>
-        <button class="colorBtn" data-color="cyan">청록</button>
+        <span class="topLabel">글자크기</span>
+        <input type="range" id="fontSlider" min="1.2" max="3.0" step="0.1" value="2">
+        <span class="topLabel">속도</span>
+        <input type="range" id="speedSlider" min="10" max="60" step="1" value="30">
       </div>
     </div>
 
@@ -165,24 +157,19 @@
     <div id="inputArea">
       <div class="controlRow">
         <button class="controlBtn" onclick="toggleScroll()">⏯ 멈춤/재시작</button>
-        <label style="color:white;">속도:
-          <input type="range" id="speedSlider" min="10" max="60" step="1" value="30" />
-          <span id="speedLabel">30s</span>
-        </label>
       </div>
       <textarea id="textInput" placeholder="텍스트를 입력하고 Enter 누르세요 (Shift+Enter 줄바꿈)"></textarea>
     </div>
   </div>
 
   <script>
-    const presetList = document.getElementById("presetList");
     const prompter = document.getElementById("prompter");
     const textInput = document.getElementById("textInput");
+    const fontSlider = document.getElementById("fontSlider");
     const speedSlider = document.getElementById("speedSlider");
-    const speedLabel = document.getElementById("speedLabel");
+    const presetList = document.getElementById("presetList");
 
     let isPaused = false;
-    let currentDuration = 30;
 
     function stripMarkdown(md) {
       return md
@@ -192,12 +179,16 @@
         .replace(/`(.+?)`/g, '$1');
     }
 
-    function startScroll(text) {
-      prompter.textContent = stripMarkdown(text);
+    function startScroll(rawText) {
+      const lines = rawText.split('\n');
+      const title = `<div class="titleLine">${stripMarkdown(lines[0])}</div>`;
+      const body = stripMarkdown(lines.slice(1).join('\n'));
+      prompter.innerHTML = `${title}\n${body}`;
       prompter.style.animation = "none";
       void prompter.offsetWidth;
+      const duration = 70 - parseInt(speedSlider.value); // 속도: 숫자가 클수록 빠르게
       prompter.style.animation = `scrollUp linear infinite`;
-      prompter.style.animationDuration = `${currentDuration}s`;
+      prompter.style.animationDuration = `${duration}s`;
       isPaused = false;
     }
 
@@ -206,56 +197,15 @@
       isPaused = !isPaused;
     }
 
-    function changeFontSize(size) {
-      if (size === "small") prompter.style.fontSize = "1.2rem";
-      else if (size === "medium") prompter.style.fontSize = "1.8rem";
-      else if (size === "large") prompter.style.fontSize = "2.4rem";
-    }
-
-    function changeColor(color) {
-      prompter.style.color = color;
-      document.querySelectorAll('.colorBtn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.color === color);
-      });
-    }
+    fontSlider.addEventListener("input", () => {
+      prompter.style.fontSize = `${fontSlider.value}rem`;
+    });
 
     speedSlider.addEventListener("input", () => {
-      currentDuration = parseInt(speedSlider.value);
-      speedLabel.textContent = `${currentDuration}s`;
-      // 재적용
-      const text = prompter.textContent;
-      startScroll(text);
+      const currentText = prompter.innerText;
+      startScroll(currentText);
     });
 
-    document.querySelectorAll('.colorBtn').forEach(btn => {
-      btn.addEventListener("click", () => changeColor(btn.dataset.color));
-    });
-
-    // 자동 로딩: 001.md ~ 020.md → 제목(첫 줄) 가져오기
-    const filePromises = [];
-    for (let i = 1; i <= 20; i++) {
-      const num = i.toString().padStart(3, '0');
-      const path = `/prompt/${num}.md`;
-      filePromises.push(
-        fetch(path).then(res => res.text().then(text => ({
-          filename: num,
-          title: text.split('\n')[0].replace(/^#+\s*/, '').trim(),
-          content: text
-        }))).catch(() => null)
-      );
-    }
-
-    Promise.all(filePromises).then(files => {
-      files.filter(Boolean).forEach(({ filename, title, content }) => {
-        const btn = document.createElement("button");
-        btn.className = "presetBtn";
-        btn.textContent = `${filename} - ${title}`;
-        btn.addEventListener("click", () => startScroll(content));
-        presetList.appendChild(btn);
-      });
-    });
-
-    // 입력
     textInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
@@ -266,6 +216,23 @@
         }
       }
     });
+
+    // Load 001.md ~ 005.md only
+    for (let i = 1; i <= 5; i++) {
+      const num = i.toString().padStart(3, '0');
+      const path = `/prompt/${num}.md`;
+      fetch(path)
+        .then(res => res.text())
+        .then(text => {
+          const title = text.split('\n')[0].replace(/^#+\s*/, '').trim();
+          const btn = document.createElement("button");
+          btn.className = "presetBtn";
+          btn.textContent = `${num} - ${title}`;
+          btn.addEventListener("click", () => startScroll(text));
+          presetList.appendChild(btn);
+        })
+        .catch(() => {});
+    }
   </script>
 </body>
 </html>
