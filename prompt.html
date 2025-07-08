@@ -29,9 +29,10 @@
     #promptArea {
       flex: 1;
       width: 100%;
-      overflow: hidden;
+      overflow-y: auto;
       position: relative;
       min-height: 0;
+      -webkit-overflow-scrolling: touch;
     }
     #prompter {
       padding: 2rem;
@@ -42,6 +43,8 @@
       overflow-wrap: break-word;
       animation: scrollUp linear infinite;
       animation-play-state: running;
+      position: absolute;
+      width: 100%;
     }
     .controlGroup {
       flex-shrink: 0;
@@ -173,9 +176,14 @@
       <button id="playBtn" onclick="handlePlayClick()">Play</button>
       <div class="smallButtons">
         <div class="buttonGroup">
-          <button class="smallBtn" onclick="setSpeed(20)">느림</button>
-          <button class="smallBtn" onclick="setSpeed(60)">보통</button>
-          <button class="smallBtn" onclick="setSpeed(120)">빠름</button>
+          <button class="smallBtn" onclick="toggleAutoScroll()">자동/수동</button>
+        </div>
+      </div>
+      <div class="smallButtons">
+        <div class="buttonGroup">
+          <button class="smallBtn" onclick="setSpeed(10)">느림</button>
+          <button class="smallBtn" onclick="setSpeed(50)">보통</button>
+          <button class="smallBtn" onclick="setSpeed(150)">빠름</button>
         </div>
         <div class="buttonGroup">
           <button class="smallBtn" onclick="setFont(1.2)">작게</button>
@@ -198,8 +206,10 @@
 
     let isPaused = false;
     let currentText = "";
-    let currentSpeed = 60;
+    let currentSpeed = 50;
     let loadedPresets = {};
+    let isAutoScroll = true;
+    let manualScrollTop = 0;
 
     function stripMarkdown(md) {
       return md
@@ -215,15 +225,22 @@
       const title = `<div class="titleLine">${stripMarkdown(lines[0])}</div>`;
       const body = stripMarkdown(lines.slice(1).join('\n'));
       prompter.innerHTML = `${title}\n${body}`;
-      prompter.style.animation = "none";
-      void prompter.offsetWidth;
+      
+      if (isAutoScroll) {
+        prompter.style.animation = "none";
+        void prompter.offsetWidth;
 
-      const duration = 350 - currentSpeed;
-      prompter.style.animation = `scrollUp linear infinite`;
-      prompter.style.animationDuration = `${duration}s`;
-      prompter.style.animationPlayState = "running";
-      isPaused = false;
-      playBtn.textContent = "Pause";
+        const duration = 500 - currentSpeed;
+        prompter.style.animation = `scrollUp linear infinite`;
+        prompter.style.animationDuration = `${duration}s`;
+        prompter.style.animationPlayState = "running";
+        isPaused = false;
+        playBtn.textContent = "Pause";
+      } else {
+        prompter.style.animation = "none";
+        promptArea.scrollTop = 0;
+        playBtn.textContent = "수동 모드";
+      }
     }
 
     function handlePlayClick() {
@@ -239,11 +256,33 @@
     }
 
     function toggleScroll() {
-      if (!prompter.textContent) return;
+      if (!prompter.textContent || !isAutoScroll) return;
       isPaused = !isPaused;
       prompter.style.animationPlayState = isPaused ? "paused" : "running";
       playBtn.textContent = isPaused ? "Play" : "Pause";
     }
+
+    function toggleAutoScroll() {
+      isAutoScroll = !isAutoScroll;
+      if (!currentText) return;
+      
+      if (isAutoScroll) {
+        // 수동에서 자동으로 전환
+        startScroll(currentText);
+      } else {
+        // 자동에서 수동으로 전환
+        prompter.style.animation = "none";
+        promptArea.scrollTop = manualScrollTop;
+        playBtn.textContent = "수동 모드";
+      }
+    }
+
+    // 수동 스크롤 위치 저장
+    promptArea.addEventListener('scroll', () => {
+      if (!isAutoScroll) {
+        manualScrollTop = promptArea.scrollTop;
+      }
+    });
 
     function resetScroll() {
       if (currentText) startScroll(currentText);
