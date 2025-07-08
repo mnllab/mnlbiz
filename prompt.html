@@ -79,24 +79,19 @@
       padding: 0.4rem 0.8rem;
       font-size: 0.9rem;
     }
-    #presetList {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      gap: 0.5rem;
-      padding: 0.5rem 0;
-      min-height: 2.5rem;
-      align-items: center;
-    }
-    .presetBtn {
-      background: #222;
+    #presetDropdown {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
       border: 1px solid #555;
-      color: white;
-      padding: 0.6rem 1rem;
       border-radius: 6px;
-      white-space: nowrap;
-      flex-shrink: 0;
+      background: #222;
+      color: white;
       cursor: pointer;
+    }
+    #presetDropdown option {
+      background: #222;
+      color: white;
     }
     #textInput {
       width: 100%;
@@ -112,10 +107,6 @@
       color: yellow;
       font-weight: bold;
       margin-bottom: 1rem;
-    }
-    .emptyMsg {
-      color: #666;
-      padding: 0.6rem 1rem;
     }
     @keyframes scrollUp {
       0% { transform: translateY(100%); }
@@ -143,20 +134,23 @@
           <button class="smallBtn" onclick="setFont(1.8)">크게</button>
         </div>
       </div>
-      <div id="presetList"></div>
+      <select id="presetDropdown" onchange="handlePresetChange()">
+        <option value="">프리셋 선택...</option>
+      </select>
       <textarea id="textInput" placeholder="텍스트를 입력하고 Play를 누르세요"></textarea>
     </div>
   </div>
 
   <script>
     const prompter = document.getElementById("prompter");
-    const presetList = document.getElementById("presetList");
+    const presetDropdown = document.getElementById("presetDropdown");
     const playBtn = document.getElementById("playBtn");
     const textInput = document.getElementById("textInput");
 
     let isPaused = false;
     let currentText = "";
     let currentSpeed = 60;
+    let loadedPresets = {};
 
     function stripMarkdown(md) {
       return md
@@ -215,6 +209,13 @@
       prompter.style.fontSize = `${rem}rem`;
     }
 
+    function handlePresetChange() {
+      const selectedValue = presetDropdown.value;
+      if (selectedValue && loadedPresets[selectedValue]) {
+        startScroll(loadedPresets[selectedValue]);
+      }
+    }
+
     document.addEventListener("keydown", (e) => {
       if (e.code === "Space") {
         e.preventDefault();
@@ -227,8 +228,8 @@
     });
 
     // 프리셋 파일 로드
-    let loadedPresets = [];
     let checkCount = 0;
+    let tempPresets = [];
     
     for (let i = 1; i <= 5; i++) {
       const num = i.toString().padStart(3, '0');
@@ -240,7 +241,7 @@
         })
         .then(text => {
           const title = text.split('\n')[0].replace(/^#+\s*/, '').trim();
-          loadedPresets.push({
+          tempPresets.push({
             num: num,
             title: title,
             text: text
@@ -251,21 +252,20 @@
           checkCount++;
           if (checkCount === 5) {
             // 모든 파일 확인 완료
-            if (loadedPresets.length === 0) {
-              const emptyMsg = document.createElement("div");
-              emptyMsg.className = "emptyMsg";
-              emptyMsg.textContent = "프리셋 파일 없음";
-              presetList.appendChild(emptyMsg);
-            } else {
+            if (tempPresets.length > 0) {
               // 번호순으로 정렬
-              loadedPresets.sort((a, b) => a.num.localeCompare(b.num));
-              loadedPresets.forEach(preset => {
-                const btn = document.createElement("button");
-                btn.className = "presetBtn";
-                btn.textContent = `${preset.num} - ${preset.title}`;
-                btn.addEventListener("click", () => startScroll(preset.text));
-                presetList.appendChild(btn);
+              tempPresets.sort((a, b) => a.num.localeCompare(b.num));
+              tempPresets.forEach(preset => {
+                const option = document.createElement("option");
+                option.value = preset.num;
+                option.textContent = `${preset.num} - ${preset.title}`;
+                presetDropdown.appendChild(option);
+                loadedPresets[preset.num] = preset.text;
               });
+            } else {
+              // 프리셋이 없는 경우
+              presetDropdown.innerHTML = '<option value="">프리셋 파일 없음</option>';
+              presetDropdown.disabled = true;
             }
           }
         });
