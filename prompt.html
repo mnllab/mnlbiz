@@ -181,9 +181,9 @@
       </div>
       <div class="smallButtons">
         <div class="buttonGroup">
-          <button class="smallBtn" onclick="setSpeed(300)">느림</button>
-          <button class="smallBtn" onclick="setSpeed(450)">보통</button>
-          <button class="smallBtn" onclick="setSpeed(550)">빠름</button>
+          <button class="smallBtn" onclick="setSpeed(450)">느림</button>
+          <button class="smallBtn" onclick="setSpeed(550)">보통</button>
+          <button class="smallBtn" onclick="setSpeed(650)">빠름</button>
         </div>
         <div class="buttonGroup">
           <button class="smallBtn" onclick="setFont(1.2)">작게</button>
@@ -206,7 +206,7 @@
 
     let isPaused = false;
     let currentText = "";
-    let currentSpeed = 450; // 기본 속도를 더 빠르게
+    let currentSpeed = 550; // 기본 속도를 보통으로 설정
     let loadedPresets = {};
     let isAutoScroll = true;
     let manualScrollTop = 0;
@@ -231,7 +231,7 @@
         void prompter.offsetWidth;
 
         // 속도 계산 공식 조정 (더 빠른 속도 범위)
-        const duration = 700 - currentSpeed;
+        const duration = 800 - currentSpeed;
         prompter.style.animation = `scrollUp linear infinite`;
         prompter.style.animationDuration = `${duration}s`;
         prompter.style.animationPlayState = "running";
