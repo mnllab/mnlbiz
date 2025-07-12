@@ -30,10 +30,11 @@
     #promptArea {
       flex: 1;
       width: 100%;
-      overflow: hidden;
+      overflow-y: auto;
       position: relative;
       min-height: 0;
       background: black;
+      -webkit-overflow-scrolling: touch;
     }
     #prompter {
       padding: 2rem;
@@ -271,7 +272,8 @@
       } else {
         prompter.style.animation = "none";
         prompter.style.transform = '';
-        promptArea.scrollTop = 0;
+        prompter.style.position = 'static';
+        promptArea.scrollTop = manualScrollTop;
         playBtn.textContent = "수동 모드";
       }
     }
@@ -304,6 +306,7 @@
       } else {
         prompter.style.animation = "none";
         prompter.style.transform = '';
+        prompter.style.position = 'static';
         promptArea.scrollTop = manualScrollTop;
         playBtn.textContent = "수동 모드";
       }
