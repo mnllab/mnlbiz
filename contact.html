@@ -120,8 +120,8 @@
                                     <label for="attachment" class="block text-gray-700 font-medium mb-2">첨부파일 (선택사항)</label>
                                     <input type="file" id="attachment" name="attachment" 
                                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100"
-                                           accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.gif,.zip,.rar">
-                                    <p class="text-gray-500 text-sm mt-1">최대 100MB까지 첨부 가능합니다</p>
+                                           accept=".pdf,application/pdf">
+                                    <p class="text-gray-500 text-sm mt-1">PDF 파일만 첨부 가능합니다 (최대 100MB)</p>
                                 </div>
                                 
                                 <div>
@@ -242,6 +242,12 @@
                 const file = fileInput.files[0];
                 const maxSize = 100 * 1024 * 1024; // 100MB
                 
+                // 파일 형식 검증
+                if (!file.type.match('application/pdf')) {
+                    formStatus.innerHTML = '<p class="text-red-600">❌ PDF 파일만 첨부 가능합니다.</p>';
+                    return;
+                }
+                
                 if (file.size > maxSize) {
                     formStatus.innerHTML = '<p class="text-red-600">❌ 파일 크기가 100MB를 초과합니다.</p>';
                     return;
@@ -280,7 +286,7 @@
         });
 
         function sendForm(formData) {
-            const googleAppScriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // 동일한 URL
+            const googleAppScriptURL = 'https://script.google.com/macros/s/AKfycbzNnd4qO96dhUxnhIz_SRoGNilZo7oaPES5L-MgXpCqsnB1LHNbGKGJynW0lb9EUHfc/exec'; // 동일한 URL
             
             fetch(googleAppScriptURL, {
                 method: 'POST',
