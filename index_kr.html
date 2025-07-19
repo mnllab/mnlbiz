@@ -413,7 +413,91 @@ MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을
                 </div>
             </div>
         </section>
+        <!-- 컨설팅 및 파트너십 문의 (신규) -->
         <!-- 컨설팅 및 파트너십 문의 -->
+        <section id="contact" class="py-20 bg-gray-900 text-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">컨설팅 및 문의</h2>
+                    <p class="mt-4 text-lg text-gray-300">1:1 컨설팅부터 기관 협업까지, 당신의 성공적인 다음 단계를 위해 MNL이 함께 고민하겠습니다.</p>
+                </div>
+                <div class="max-w-2xl mx-auto bg-white/10 p-8 rounded-lg shadow-lg backdrop-blur-sm">
+                    <form id="contact-form">
+                        <div class="grid md:grid-cols-2 gap-6 mb-5">
+                            <div>
+                                <label for="name" class="block mb-2 font-medium">이름 *</label>
+                                <input type="text" id="name" name="name" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white placeholder-gray-400" required placeholder="홍길동">
+                            </div>
+                            <div>
+                                <label for="company" class="block mb-2 font-medium">회사/소속</label>
+                                <input type="text" id="company" name="company" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white placeholder-gray-400" placeholder="MNL">
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6 mb-5">
+                            <div>
+                                <label for="email" class="block mb-2 font-medium">이메일 *</label>
+                                <input type="email" id="email" name="email" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white placeholder-gray-400" required placeholder="example@email.com">
+                            </div>
+                            <div>
+                                <label for="phone" class="block mb-2 font-medium">연락처 *</label>
+                                <input type="tel" id="phone" name="phone" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white placeholder-gray-400" required placeholder="010-0000-0000">
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <label for="service" class="block mb-2 font-medium">서비스 분야 선택 *</label>
+                            <select id="service" name="service" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white" required>
+                                <option value="" class="text-gray-900">선택해주세요</option>
+                                <option value="사업컨설팅" class="text-gray-900">사업컨설팅</option>
+                                <option value="기업교육" class="text-gray-900">기업교육</option>
+                                <option value="협업제안" class="text-gray-900">협업제안</option>
+                                <option value="강연/세미나" class="text-gray-900">강연/세미나</option>
+                                <option value="기타" class="text-gray-900">기타</option>
+                    </select>
+                </div>
+                <div class="mb-5">
+                    <label for="message" class="block mb-2 font-medium">문의 내용 *</label>
+                    <textarea id="message" name="message" rows="5" class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white placeholder-gray-400" required placeholder="문의하실 내용을 자세히 작성해주세요"></textarea>
+                </div>
+                <div class="mb-6">
+                    <label for="attachment" class="block mb-2 font-medium">첨부파일 (선택사항)</label>
+                    <input type="file" id="attachment" name="attachment" 
+                           class="w-full p-3 bg-white/20 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100"
+                           accept=".pdf,application/pdf">
+                    <p class="text-gray-400 text-sm mt-1">PDF 파일만 첨부 가능합니다 (최대 50MB)</p>
+                </div>
+                <div class="mb-6">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="privacy-policy" name="privacy-policy" class="w-4 h-4 text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500" required>
+                        <span class="ml-2 text-sm text-gray-300">개인정보 수집 및 이용에 동의합니다.</span>
+                    </label>
+                </div>
+                <button type="submit" id="submit-button" class="w-full bg-amber-500 text-white text-lg font-bold py-3 px-6 rounded-lg hover:bg-amber-600 transition-colors disabled:bg-gray-500 flex items-center justify-center">
+                    <span>문의 접수하기</span>
+                </button>
+            </form>
+            <div id="form-status" class="mt-4 text-center font-medium"></div>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* 로딩 애니메이션 스타일 추가 */
+    .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255,255,255,.3);
+        border-radius: 50%;
+        border-top-color: #fff;
+        animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+</style>
+
+        
+        <!-- 컨설팅 및 파트너십 문의 (예전)
         <section id="contact" class="py-20 bg-gray-900 text-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
@@ -461,8 +545,9 @@ MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을
                     <div id="form-status" class="mt-4 text-center font-medium"></div>
                 </div>
             </div>
-        </section>
+        </section> -->
     </main>
+    
     <!-- 푸터 -->
     <footer class="bg-gray-800 text-gray-300 text-sm">
         <div class="container mx-auto px-6 py-10">
@@ -533,7 +618,93 @@ MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을
             });
         });
         
-        // 문의 폼 (Google Form 연동)
+        // 문의 폼 처리
+        const contactForm = document.getElementById('contact-form');
+        const formStatus = document.getElementById('form-status');
+        const submitButton = document.getElementById('submit-button');
+    
+        contactForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+        
+            // Google Apps Script URL
+            const googleAppScriptURL = 'https://script.google.com/macros/s/AKfycbzNnd4qO96dhUxnhIz_SRoGNilZo7oaPES5L-MgXpCqsnB1LHNbGKGJynW0lb9EUHfc/exec'; 
+        
+            // 파일 크기 검증
+            const fileInput = document.getElementById('attachment');
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const maxSize = 50 * 1024 * 1024; // 50MB
+            
+                // 파일 형식 검증
+                if (!file.type.match('application/pdf')) {
+                    formStatus.innerHTML = '<p class="text-red-400">❌ PDF 파일만 첨부 가능합니다.</p>';
+                    return;
+                }
+                
+                if (file.size > maxSize) {
+                    formStatus.innerHTML = '<p class="text-red-400">❌ 파일 크기가 50MB를 초과합니다.</p>';
+                    return;
+                }
+            }
+           
+            // 로딩 상태 표시
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="loading mr-2"></span>전송 중...';
+            formStatus.textContent = '';
+            
+            const formData = new FormData(contactForm);
+            formData.append('timestamp', new Date().toLocaleString('ko-KR'));
+            
+            // 파일 처리
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // Base64 데이터 추가
+                    formData.append('fileData', e.target.result.split(',')[1]); // base64 부분만
+                    formData.append('fileName', file.name);
+                    formData.append('fileType', file.type);
+                    formData.append('fileSize', (file.size / 1024 / 1024).toFixed(2) + ' MB');
+                    
+                    // 폼 전송
+                    sendForm(formData);
+                };
+                
+                reader.readAsDataURL(file);
+            } else {
+                // 파일이 없는 경우 바로 전송
+                sendForm(formData);
+            }
+        });
+    
+        function sendForm(formData) {
+            const googleAppScriptURL = 'https://script.google.com/macros/s/AKfycbzNnd4qO96dhUxnhIz_SRoGNilZo7oaPES5L-MgXpCqsnB1LHNbGKGJynW0lb9EUHfc/exec';
+            
+            fetch(googleAppScriptURL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    formStatus.innerHTML = '<p class="text-green-400">✅ 문의가 성공적으로 접수되었습니다.<br>빠른 시일 내에 연락드리겠습니다.</p>';
+                    contactForm.reset();
+                } else {
+                    throw new Error(data.error || '알 수 없는 오류');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                formStatus.innerHTML = '<p class="text-red-400">❌ 전송 중 오류가 발생했습니다.<br>잠시 후 다시 시도해주세요.</p>';
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<span>문의 접수하기</span>';
+            });
+        }
+        
+/*       // 문의 폼 (Google Form 연동)
         const contactForm = document.getElementById('contact-form');
         const formStatus = document.getElementById('form-status');
         const submitButton = document.getElementById('submit-button');
@@ -573,7 +744,7 @@ MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을
                 submitButton.disabled = false;
                 submitButton.textContent = '문의 접수하기';
             });
-        });
+        }); */
     </script>
 </body>
 </html>
