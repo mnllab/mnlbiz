@@ -102,6 +102,23 @@
             background-color: #f9fafb;
             border-color: #d97706;
         }
+        /* reCAPTURE */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .grecaptcha-badge {
+            visibility: hidden;
+        }
+        /* 이 부분 추가 */
     </style>
 </head>
 <body class="bg-white text-gray-800">
@@ -472,6 +489,9 @@ MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을
                         <span class="ml-2 text-sm text-gray-300">개인정보 수집 및 이용에 동의합니다.</span>
                     </label>
                 </div>
+                <!-- reCAPTCHA가 -->
+                        <input type="hidden" id="recaptcha-token" name="recaptcha-token">
+                <!-- ⬆️ 이 한 줄 추가 -->
                 <button type="submit" id="submit-button" class="w-full bg-amber-500 text-white text-lg font-bold py-3 px-6 rounded-lg hover:bg-amber-600 transition-colors disabled:bg-gray-500 flex items-center justify-center">
                     <span>문의 접수하기</span>
                 </button>
@@ -626,7 +646,18 @@ MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을
     
         contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-        
+
+             // reCAPTCHA v3 토큰 생성
+            try {
+                const token = await grecaptcha.execute('6LeAhe8rAAAAANP2fndqoxXSkEMUTx3yFQeuG__5', { action: 'submit' });
+                document.getElementById('recaptcha-token').value = token;
+            } catch (error) {
+                console.error('reCAPTCHA error:', error);
+                formStatus.innerHTML = '<p class="text-red-400">❌ 보안 검증 중 오류가 발생했습니다. 새로고침 후 다시 시도해주세요.</p>';
+                return;
+            }
+            // ⬆️ 이 부분 추가
+            
             // Google Apps Script URL
             const googleAppScriptURL = 'https://script.google.com/macros/s/AKfycbzNnd4qO96dhUxnhIz_SRoGNilZo7oaPES5L-MgXpCqsnB1LHNbGKGJynW0lb9EUHfc/exec'; 
         
