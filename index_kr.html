@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <style>
         /* 커스텀 스타일 */
         body {
@@ -644,7 +645,7 @@ MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을
         const formStatus = document.getElementById('form-status');
         const submitButton = document.getElementById('submit-button');
     
-        contactForm.addEventListener('submit', function (e) {
+        contactForm.addEventListener('submit', async function (e) {
             e.preventDefault();
 
              // reCAPTCHA v3 토큰 생성
@@ -711,7 +712,7 @@ MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을
         });
     
         function sendForm(formData) {
-            const googleAppScriptURL = 'https://script.google.com/macros/s/AKfycbzNnd4qO96dhUxnhIz_SRoGNilZo7oaPES5L-MgXpCqsnB1LHNbGKGJynW0lb9EUHfc/exec';
+            const googleAppScriptURL = 'https://script.google.com/macros/s/AKfycbyqi_cNPLWi9ML_IRGR8uuUJsz_anPhsfuMoww-oWmQ6nrXtYtSAoiIL0vQ4ljA_GQ-/exec';
             
             fetch(googleAppScriptURL, {
                 method: 'POST',
@@ -780,4 +781,5 @@ MNL은 사업 아이디어를 구체적인 모델로 만들고, 실행 전략을
     </script>
 </body>
 </html>
+
 
